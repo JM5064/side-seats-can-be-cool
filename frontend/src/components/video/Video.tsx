@@ -130,8 +130,6 @@ const Video = ({ onSwitchMode }: VideoProps) => {
     }
 
     console.log("Image capture button clicked!")
-
-    onSwitchMode()
   }
 
   const captureFrame = (): HTMLCanvasElement | null => {
