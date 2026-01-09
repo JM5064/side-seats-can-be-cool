@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import Video from './components/video/Video'
-import './App.css'
+import Video from '@/components/video/Video'
+import Chatbot from '@/components/chatbot/Chatbot'
+import '@/App.css'
 
 function App() {
   const switchToChatbot = () => setCurrentMode('chatbot')
@@ -15,9 +16,9 @@ function App() {
         <Video 
           onSwitchMode={switchToChatbot}
         /> : 
-        <>
-        {/* chatbot */}
-        </>
+        <Chatbot
+          onSwitchMode={switchToVideo}
+        />
       }
     </div>
   )
