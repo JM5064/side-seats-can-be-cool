@@ -1,12 +1,7 @@
 import { useRef, useEffect } from 'react'
-import CaptureButton from './CaptureButton'
+import CaptureButton from '@/components/video/CaptureButton'
 
-interface VideoProps {
-  onSwitchMode: () => void
-}
-
-
-const Video = ({ onSwitchMode }: VideoProps) => {
+const Video = () => {
 
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -150,7 +145,7 @@ const Video = ({ onSwitchMode }: VideoProps) => {
   }
 
   return (
-    <div className='relative w-full h-full h-screen bg-black'>
+    <div className='relative w-full h-full bg-black'>
     {/* <div> */}
       <video ref={videoRef} autoPlay playsInline muted className='w-full '/>
       {/* <video ref={videoRef} autoPlay playsInline muted /> */}
