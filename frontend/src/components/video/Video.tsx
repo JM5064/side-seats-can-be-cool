@@ -144,16 +144,18 @@ const Video = () => {
     return processingCanvas
   }
 
-  return (
-    <div className='relative w-full h-full bg-black'>
-    {/* <div> */}
-      <video ref={videoRef} autoPlay playsInline muted className='w-full '/>
-      {/* <video ref={videoRef} autoPlay playsInline muted /> */}
-      
-      <canvas ref={canvasRef} className='absolute top-0 left-0 w-full'/>
-      {/* <canvas ref={canvasRef}/> */}
+  // {/* <BoardSelector videoRef={videoRef} onConfirm={() => console.log('confirm button clicked')}/> */}
 
-      <CaptureButton handleClick={handleClick}/>
+  return (
+    <div className="relative w-full h-screen bg-black flex items-center justify-center overflow-hidden">
+      <div className="relative w-fit h-fit">
+        <video ref={videoRef} autoPlay playsInline muted className="block max-h-screen max-w-full" />
+        <canvas ref={canvasRef} className="absolute inset-0 w-full h-full z-10" />
+      </div>
+  
+      <div className="absolute bottom-5 z-20">
+        <CaptureButton handleClick={handleClick}/>
+      </div>
     </div>
   )
 }
