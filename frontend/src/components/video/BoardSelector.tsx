@@ -1,9 +1,5 @@
 import React, { use, useEffect, useRef, useState } from 'react'
-
-interface Point {
-  x: number,
-  y: number
-}
+import { type Point } from '@/types/point'
 
 interface BoardSelectorProps {
   videoWidth: number | undefined
@@ -29,7 +25,7 @@ const BoardSelector = ({ videoWidth, videoHeight, onConfirm }: BoardSelectorProp
     const y = ((e.clientY - rect.top) / rect.height) * videoHeight
     
     const point: Point = { x, y }
-    console.log("Clicked!", point)
+    // console.log("Clicked!", point)
 
     // Set context for drawing
     const ctx = drawingCanvasRef.current?.getContext('2d')
@@ -41,13 +37,15 @@ const BoardSelector = ({ videoWidth, videoHeight, onConfirm }: BoardSelectorProp
 
     setPoints([...points, point])
 
-    // Reset drawing canvas
-    // ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
-    if (points.length == 4) {
-      // User already drew 4 points
+    if (points.length >= 4) {
+      // User already drew 4 points, reset drawing canvas
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-      setPoints([point])
+      // setPoints([point])
+
+      // TODO: Temporary solution: make 5th click a confirm
+      onConfirm(points)
+      return
     }
 
     // Draw circle at point
@@ -85,12 +83,12 @@ const BoardSelector = ({ videoWidth, videoHeight, onConfirm }: BoardSelectorProp
         onClick={handleMouseClick}
       />
 
-      <button
+      {/* <button
         className='absolute px-4 py-1 bg-blue-600 text-white rounded'
         onClick={handleConfirm}
       >
         Confirm
-      </button>
+      </button> */}
 
     </div>
   )

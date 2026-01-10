@@ -1,10 +1,19 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import CaptureButton from '@/components/video/CaptureButton'
+import BoardSelector from '@/components/video/BoardSelector'
+import { type Point } from '@/types/point'
 
 const Video = () => {
 
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  const [videoWidth, setVideoWidth] = useState(0)
+  const [videoHeight, setVideoHeight] = useState(0)
+
+  const [boardCorners, setBoardCorners] = useState<Point[]>([])
+  // Use ref as well since state variable change doesn't reflect inside requestAnimationFrame
+  const boardCornersRef = useRef<Point[]>([]) 
 
   // Initialize video feed
   useEffect(() => {
@@ -40,11 +49,17 @@ const Video = () => {
         canvasRef.current.width = videoRef.current.videoWidth
         canvasRef.current.height = videoRef.current.videoHeight
 
+        setVideoWidth(videoRef.current.videoWidth)
+        setVideoHeight(videoRef.current.videoHeight)
+
         // Copy the video onto canvas, then warp the canvas, then redraw canvas
         // Kinda a sus solution, but it works ig
         ctx.drawImage(videoRef.current, 0, 0)
-        warpImage()
-        ctx.drawImage(canvasRef.current, 0, 0)
+
+        if (boardCornersRef.current.length >= 4) {
+          warpImage()
+          ctx.drawImage(canvasRef.current, 0, 0)
+        }
       }
     }
 
@@ -74,24 +89,41 @@ const Video = () => {
     })
   }
 
+  useEffect(() => {
+    boardCornersRef.current = boardCorners
+  }, [boardCorners])
+
   const warpImage = () => {
     const canvas = canvasRef.current
     if (!canvas) {
       return
     }
 
-    const width = canvas.width / 2
-    const height = canvas.height / 2
+    const boardCorners = boardCornersRef.current
+    if (boardCorners.length < 4) {
+      return
+    }
 
-    if (width == 0 || height == 0) {
+    // Scale down the image to reduce lag
+    const scale = 2
+    const newWidth = canvas.width / scale
+    const newHeight = canvas.height / scale
+
+    if (newWidth == 0 || newHeight == 0) {
       return
     }
     
     const cv = (window as any).cv
     
-    // Dummy data for now
-    const inputPoints = [10, 10,  width-10, 10,  width-10, height-20,  10, height-200]
-    const outputPoints = [0, 0, width, 0, width, height, 0, height]
+    // Transform corner input points into ideal output points
+    // Top left, Top right, Bottom right, bottom left
+    const inputPoints = [
+      boardCorners[0].x / scale, boardCorners[0].y / scale,
+      boardCorners[1].x / scale, boardCorners[1].y / scale,
+      boardCorners[2].x / scale, boardCorners[2].y / scale,
+      boardCorners[3].x / scale, boardCorners[3].y / scale,
+    ]
+    const outputPoints = [0, 0, newWidth, 0, newWidth, newHeight, 0, newHeight]
     
     const inputMat = cv.matFromArray(4, 1, cv.CV_32FC2, inputPoints)
     const outputMat = cv.matFromArray(4, 1, cv.CV_32FC2, outputPoints)
@@ -101,11 +133,14 @@ const Video = () => {
     
     // Perform transformation
     const image = cv.imread(canvas)
-    cv.resize(image, image, new cv.Size(width, height))
+    cv.resize(image, image, new cv.Size(newWidth, newHeight))
     const warped_image = new cv.Mat()
     
     // Slow for large images
-    cv.warpPerspective(image, warped_image, H, new cv.Size(width, height))
+    cv.warpPerspective(image, warped_image, H, new cv.Size(newWidth, newHeight))
+
+    // Rescale image back to original size (slow for some reason)
+    // cv.resize(warped_image, warped_image, new cv.Size(width * scale, height * scale))
 
     // Replace canvas with the warped image
     cv.imshow(canvas, warped_image)
@@ -144,16 +179,20 @@ const Video = () => {
     return processingCanvas
   }
 
-  // {/* <BoardSelector videoRef={videoRef} onConfirm={() => console.log('confirm button clicked')}/> */}
 
   return (
     <div className="relative w-full h-screen bg-black flex items-center justify-center overflow-hidden">
       <div className="relative w-fit h-fit">
         <video ref={videoRef} autoPlay playsInline muted className="block max-h-screen max-w-full" />
         <canvas ref={canvasRef} className="absolute inset-0 w-full h-full z-10" />
+        <BoardSelector 
+          videoWidth={videoWidth} 
+          videoHeight={videoHeight} 
+          onConfirm={(points) => setBoardCorners(points)}
+        />
       </div>
   
-      <div className="absolute bottom-5 z-20">
+      <div className="absolute bottom-5 z-40">
         <CaptureButton handleClick={handleClick}/>
       </div>
     </div>
