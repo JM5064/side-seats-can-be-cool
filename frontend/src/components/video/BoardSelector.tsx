@@ -44,7 +44,7 @@ const BoardSelector = ({ videoWidth, videoHeight, onConfirm }: BoardSelectorProp
       // setPoints([point])
 
       // TODO: Temporary solution: make 5th click a confirm
-      onConfirm(points)
+      onConfirm(sortPoints(points))
       return
     }
 
@@ -54,6 +54,16 @@ const BoardSelector = ({ videoWidth, videoHeight, onConfirm }: BoardSelectorProp
     ctx.fill()
   }
 
+  const sortPoints = (points: Point[]) => {
+    const sortedY = [...points].sort((a, b) => a.y - b.y)
+  
+    // Top points: smaller y
+    // Left points: smaller x
+    const top = sortedY.slice(0, 2).sort((a, b) => a.x - b.x)
+    const bottom = sortedY.slice(2, 4).sort((a, b) => a.x - b.x)
+  
+    return [top[0], top[1], bottom[1], bottom[0]]
+  }
 
   const handleConfirm = () => {
     console.log("Handle confirm called", points)
