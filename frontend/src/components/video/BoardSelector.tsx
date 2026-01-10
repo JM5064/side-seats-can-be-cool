@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { use, useEffect, useRef, useState } from 'react'
 
 interface Point {
   x: number,
@@ -29,7 +29,7 @@ const BoardSelector = ({ videoWidth, videoHeight, onConfirm }: BoardSelectorProp
     const y = ((e.clientY - rect.top) / rect.height) * videoHeight
     
     const point: Point = { x, y }
-    console.log("Clicked!", point, points)
+    console.log("Clicked!", point)
 
     // Set context for drawing
     const ctx = drawingCanvasRef.current?.getContext('2d')
@@ -39,24 +39,21 @@ const BoardSelector = ({ videoWidth, videoHeight, onConfirm }: BoardSelectorProp
     ctx.fillStyle = 'red'
     ctx.lineWidth = 2
 
+    setPoints([...points, point])
+
     // Reset drawing canvas
     // ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
-    // if (points.length == 4) {
-    //   // already drew 4 points
-    //   return
-    // }
-
-    if (!videoWidth || !videoHeight) {
-      return
+    if (points.length == 4) {
+      // User already drew 4 points
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+      setPoints([point])
     }
 
     // Draw circle at point
     ctx.beginPath()
     ctx.arc(x, y, 5, 0, 2 * Math.PI)
     ctx.fill()
-
-    setPoints([...points, point])
   }
 
 
@@ -73,8 +70,6 @@ const BoardSelector = ({ videoWidth, videoHeight, onConfirm }: BoardSelectorProp
       drawingCanvas.width = videoWidth
       drawingCanvas.height = videoHeight
     }
-    console.log(videoWidth, "jello")
-    console.log(drawingCanvasRef.current?.width)
   }, [videoWidth, videoHeight])
 
   return (
