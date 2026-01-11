@@ -37,22 +37,30 @@ const BoardSelector = ({ videoWidth, videoHeight, onConfirm }: BoardSelectorProp
 
     setPoints([...points, point])
 
-
-    if (points.length >= 4) {
-      // User already drew 4 points, reset drawing canvas
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-      // setPoints([point])
-
-      // TODO: Temporary solution: make 5th click a confirm
-      onConfirm(sortPoints(points))
-      return
-    }
-
     // Draw circle at point
     ctx.beginPath()
     ctx.arc(x, y, 5, 0, 2 * Math.PI)
     ctx.fill()
   }
+
+  useEffect(() => {
+    // Set context for drawing
+    const ctx = drawingCanvasRef.current?.getContext('2d')
+    if (!ctx) return
+    
+    if (points.length == 5) {
+      // 5th click: confirm points and warp
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+
+      onConfirm(sortPoints(points.slice(0, 4)))
+    } else if (points.length == 6) {
+      // 6th click: reset points and warp
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+      setPoints([])
+      onConfirm([])
+    }
+
+  }, [points])
 
   const sortPoints = (points: Point[]) => {
     const sortedY = [...points].sort((a, b) => a.y - b.y)

@@ -41,6 +41,27 @@ const Video = () => {
     init()
   }, [])
 
+  // Uncomment to test using a static video
+  // useEffect(() => {
+  //   const video = videoRef.current
+  //   if (!video) return
+  
+  //   video.src = "public/ex3.mp4"
+  //   video.loop = true
+  //   video.muted = true
+  //   video.playsInline = true
+  //   video.autoplay = true
+  
+  //   video.onloadedmetadata = () => {
+  //     video.play()
+  //   }
+  
+  //   video.onplay = () => {
+  //     requestAnimationFrame(updateCanvas)
+  //   }
+  // }, [])
+  
+
   // Refresh canvas with new video
   const updateCanvas = () => {
     if (videoRef.current && canvasRef.current) {
@@ -140,7 +161,7 @@ const Video = () => {
     cv.warpPerspective(image, warped_image, H, new cv.Size(newWidth, newHeight))
 
     // Rescale image back to original size (slow for some reason)
-    // cv.resize(warped_image, warped_image, new cv.Size(width * scale, height * scale))
+    // cv.resize(warped_image, warped_image, new cv.Size(newWidth * scale, newHeight * scale))
 
     // Replace canvas with the warped image
     cv.imshow(canvas, warped_image)
@@ -159,6 +180,7 @@ const Video = () => {
       return
     }
 
+    // Send to backend
     console.log("Image capture button clicked!")
   }
 
