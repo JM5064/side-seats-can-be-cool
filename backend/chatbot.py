@@ -4,7 +4,8 @@ import os
 
 load_dotenv
 
-API_KEY = os.environ.get('API_KEY')
+#API_KEY = os.environ.get('API_KEY')
+API_KEY = 'espr_16nH6kv_GNBonUwPVucy1dk2faNbhPyHw9Iii6dq73I'
 BASE_URL = "https://app.backboard.io/api"
 HEADERS = {"X-API-Key": API_KEY}
 

@@ -16,15 +16,25 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
 db.init_app(app)
 
+with app.app_context():
+    db.create_all()
+
 @app.route("/")
 @app.route("/home")
 def homepage():
+    new_course = Course(course_name = 'comp551', course_chat_id = 2)
+    db.session.add(new_course)
+    db.session.commit()
+    new_course = Course(course_name = 'comp552', course_chat_id = 3)
+    db.session.add(new_course)
+    db.session.commit()
     courses = Course.query.all()
-    render_template("index.html", courses = courses)
+    return {"ok": f'{courses}'} #{'courses' : courses }
+
 
 
 @app.route("/createclass", methods=["GET", "POST"])
-def create_class(): # to create a new chat bot thread
+def create_class(): # to create a new chat bot threadg
     form = CreateForm()
     if form.validate_on_submit():
         new_course = Course(course_name = form.title.data, course_chat_id = create_thread_id())
@@ -44,8 +54,8 @@ def create_class(): # to create a new chat bot thread
 def coursechat(course_id):
     form = ChatForm()
     course = Course.query.filter_by(course_id = course_id)
-    chatbot_history = ChatbotHistory.query.filter_by(course_id = course_id).order_by(Post.date_posted.desc())
-    user_history = UserHistory.query.filter_by(course_id = course_id).order_by(Post.date_posted.desc())
+    chatbot_history = ChatbotHistory.query.filter_by(course_id = course_id).order_by(ChatbotHistory.date_posted.desc())
+    user_history = UserHistory.query.filter_by(course_id = course_id).order_by(UserHistory.date_posted.desc())
 
     if form.validate_on_submit():
         msg = form.msg
