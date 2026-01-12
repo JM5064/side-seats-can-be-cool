@@ -13,9 +13,9 @@ response = requests.post(
 assistant_id = response.json()["assistant_id"]
 
 
-def creat_thread_id(assistant_id = assistant_id) :
+def create_thread_id(assistant_id = assistant_id):
     response = requests.post(
-        f"{BASE_URL}/assisttants/{assistant_id}/threads",
+        f"{BASE_URL}/assistants/{assistant_id}/threads",
         json={},
         headers=HEADERS,
     )
