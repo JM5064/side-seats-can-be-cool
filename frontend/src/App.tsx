@@ -1,23 +1,19 @@
 import { useState } from 'react'
-import Video from './components/video/Video'
-import './App.css'
+import Video from '@/components/video/Video'
+import Chatbot from '@/components/chatbot/Chatbot'
+import Toggle from '@/Toggle'
+import '@/App.css'
 
 function App() {
-  const switchToChatbot = () => setCurrentMode('chatbot')
-  const switchToVideo = () => setCurrentMode('video')
 
-  
   const [currentMode, setCurrentMode] = useState('video')
 
   return (
     <div>
+      <Toggle mode={currentMode} toggleFunc={setCurrentMode}/>
       {currentMode === 'video' ? 
-        <Video 
-          onSwitchMode={switchToChatbot}
-        /> : 
-        <>
-        {/* chatbot */}
-        </>
+        <Video/> : 
+        <Chatbot/>
       }
     </div>
   )
