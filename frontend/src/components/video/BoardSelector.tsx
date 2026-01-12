@@ -1,9 +1,5 @@
 import React, { use, useEffect, useRef, useState } from 'react'
-
-interface Point {
-  x: number,
-  y: number
-}
+import { type Point } from '@/types/point'
 
 interface BoardSelectorProps {
   videoWidth: number | undefined
@@ -29,7 +25,7 @@ const BoardSelector = ({ videoWidth, videoHeight, onConfirm }: BoardSelectorProp
     const y = ((e.clientY - rect.top) / rect.height) * videoHeight
     
     const point: Point = { x, y }
-    console.log("Clicked!", point)
+    // console.log("Clicked!", point)
 
     // Set context for drawing
     const ctx = drawingCanvasRef.current?.getContext('2d')
@@ -41,21 +37,41 @@ const BoardSelector = ({ videoWidth, videoHeight, onConfirm }: BoardSelectorProp
 
     setPoints([...points, point])
 
-    // Reset drawing canvas
-    // ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-
-    if (points.length == 4) {
-      // User already drew 4 points
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-      setPoints([point])
-    }
-
     // Draw circle at point
     ctx.beginPath()
     ctx.arc(x, y, 5, 0, 2 * Math.PI)
     ctx.fill()
   }
 
+  useEffect(() => {
+    // Set context for drawing
+    const ctx = drawingCanvasRef.current?.getContext('2d')
+    if (!ctx) return
+    
+    if (points.length == 5) {
+      // 5th click: confirm points and warp
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+
+      onConfirm(sortPoints(points.slice(0, 4)))
+    } else if (points.length == 6) {
+      // 6th click: reset points and warp
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+      setPoints([])
+      onConfirm([])
+    }
+
+  }, [points])
+
+  const sortPoints = (points: Point[]) => {
+    const sortedY = [...points].sort((a, b) => a.y - b.y)
+  
+    // Top points: smaller y
+    // Left points: smaller x
+    const top = sortedY.slice(0, 2).sort((a, b) => a.x - b.x)
+    const bottom = sortedY.slice(2, 4).sort((a, b) => a.x - b.x)
+  
+    return [top[0], top[1], bottom[1], bottom[0]]
+  }
 
   const handleConfirm = () => {
     console.log("Handle confirm called", points)
@@ -85,12 +101,12 @@ const BoardSelector = ({ videoWidth, videoHeight, onConfirm }: BoardSelectorProp
         onClick={handleMouseClick}
       />
 
-      <button
+      {/* <button
         className='absolute px-4 py-1 bg-blue-600 text-white rounded'
         onClick={handleConfirm}
       >
         Confirm
-      </button>
+      </button> */}
 
     </div>
   )
