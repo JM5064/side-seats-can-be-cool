@@ -1,8 +1,10 @@
+import Chat from '@/components/chatbot/Chat'
+
 const Chatbot = () => {
 
   return (
-    <div className='h-screen w-screen flex-col bg-black'>
-        <p>placeholder</p>
+    <div className='h-full w-full'>
+        <Chat />
     </div>
   )
 }
