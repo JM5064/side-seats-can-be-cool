@@ -11,7 +11,7 @@ type HeaderProps = {
 const Header = ({ currentClass, currentMode, setModeFunc }: HeaderProps) => {
     const content = (
         <span className="w-full flex items-center justify-between">
-            <h1>{currentClass}</h1>
+            <h1>Current Class: {currentClass}</h1>
             <Toggle mode={currentMode} setModeFunc={setModeFunc} />
         </span>
     )

@@ -2,6 +2,9 @@ import { useState } from 'react'
 import Sidebar from '@/components/Sidebar'
 import Header from '@/components/Header'
 import MobileHeaderSidebar from '@/components/MobileHeaderSidebar'
+import Video from '@/components/video/Video'
+import Chatbot from '@/components/chatbot/Chatbot'
+import BackendTest from '@/components/BackendTest'
 import '@/App.css'
 
 function App() {
@@ -31,10 +34,12 @@ function App() {
       currentClass={currentClass} currentMode={currentMode} setModeFunc={setCurrentMode}
       setClassFunc={setCurrentClass} classes={allClasses} />
 
-      {/* {mode === 'video' ?
+      {currentMode === 'video' ?
                 <Video /> :
                 <Chatbot />
-            } */}
+            }
+
+      {/* <BackendTest /> */}
     </>
   )
 }

@@ -93,7 +93,7 @@ def coursechat():
 
 
 if __name__ == "main":
-    app.run(debug == True)
+    app.run(debug=True)
 
 '''left to add stuff related to the picture taken aka 2 things : feed it to the model, and save it in the database
 i think thats pretty easy to do '''
