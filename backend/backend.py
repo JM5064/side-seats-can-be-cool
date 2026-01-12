@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import Flask , request ,render_template, url_for , redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskFrom
-from wtforms import StringField,SubmitField,BooleanField
+from wtforms import StringField,SubmitField
 from wtforms.validators import DataRequired
 from chatbot import creat_thread_id , response
 
