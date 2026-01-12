@@ -1,21 +1,41 @@
 import { useState } from 'react'
-import Video from '@/components/video/Video'
-import Chatbot from '@/components/chatbot/Chatbot'
-import Toggle from '@/Toggle'
+import Sidebar from '@/components/Sidebar'
+import Header from '@/components/Header'
+import MobileHeaderSidebar from '@/components/MobileHeaderSidebar'
 import '@/App.css'
 
 function App() {
 
-  const [currentMode, setCurrentMode] = useState('video')
+  const [currentMode, setCurrentMode] = useState('chatbot')
+  const [currentClass, setCurrentClass] = useState('math')
+  // const [currentClass, setCurrentClass] = useState('testClass')
+
+  const allClasses = [
+    {
+      label: "math",
+      // id: "testClass",
+    },
+    {
+      label: "also math",
+      // id: "anotherClass",
+    },
+  ]
 
   return (
-    <div>
-      <Toggle mode={currentMode} toggleFunc={setCurrentMode}/>
-      {currentMode === 'video' ? 
-        <Video/> : 
-        <Chatbot/>
-      }
-    </div>
+    <>
+      <Sidebar currentClass={currentClass} setClassFunc={setCurrentClass} classes={allClasses} />
+
+      <Header currentClass={currentClass} currentMode={currentMode} setModeFunc={setCurrentMode} />
+      
+      <MobileHeaderSidebar 
+      currentClass={currentClass} currentMode={currentMode} setModeFunc={setCurrentMode}
+      setClassFunc={setCurrentClass} classes={allClasses} />
+
+      {/* {mode === 'video' ?
+                <Video /> :
+                <Chatbot />
+            } */}
+    </>
   )
 }
 

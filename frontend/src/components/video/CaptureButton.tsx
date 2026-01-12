@@ -1,3 +1,6 @@
+import { Camera01 } from "@untitledui/icons"
+import { Button } from "@/components/base/buttons/button"
+
 interface CaptureButtonProps {
   handleClick: () => void
 }
@@ -5,26 +8,7 @@ interface CaptureButtonProps {
 const CaptureButton = ({ handleClick }: CaptureButtonProps) => {
   
   return (
-    <button
-      type="button"
-      aria-label="Capture photo"
-      onClick={handleClick}
-      className={`
-        relative grid place-items-center
-        w-16 h-16
-        rounded-full
-        bg-white/90
-        shadow-lg
-        ring-2 ring-white/80
-        hover:bg-white active:scale-95
-        transition
-        disabled:opacity-50 disabled:cursor-not-allowed
-        left-1/2 -translate-x-1/2 bottom-32
-      `}
-    >
-      {/* Inner “shutter” circle */}
-      <span className="block w-12 h-12 rounded-full bg-white ring-2 ring-gray-300" />
-    </button>
+    <Button color="secondary" onClick={handleClick} size="xl" iconLeading={Camera01} aria-label="Capture photo" />
   )
 }
 
