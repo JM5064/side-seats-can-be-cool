@@ -1,0 +1,6 @@
+opencv-python
+numpy
+flask
+flask_sqlalchemy
+flask_wtf
+requests
