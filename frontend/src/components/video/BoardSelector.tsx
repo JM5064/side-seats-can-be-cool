@@ -92,7 +92,7 @@ const BoardSelector = ({ videoWidth, videoHeight, onConfirm }: BoardSelectorProp
     <div>
       <canvas
         ref={drawingCanvasRef}
-        className="absolute inset-0 w-full h-full z-20 border-2 border-blue-500"
+        className="absolute inset-0 w-full h-full z-20"
         style={{ pointerEvents: 'none' }}
       />
       <div

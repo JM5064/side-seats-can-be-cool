@@ -37,22 +37,26 @@ def create_class(): # to create a new chat bot thread
         db.session.add(new_course)
         db.session.commit()
 
-        return {"status": "ok", "course_id": new_course.id}, 400
-        # return redirect(url_for("home"))
+        log(f"Successfully created course {new_course.course_name}, {new_course.id}")
 
-    return {"status": "error", "errors": form.errors}, 201
-    # return render_template('create.html', form = form)
+        return {"status": "ok", "course_id": new_course.id}, 201
+
+    log("Failed to create class")
+    
+    return {"status": "error", "errors": form.errors}, 400
 
 
-# TODO: sus
 @app.route("/coursechat/<int:course_id>", methods=["GET","POST"])
 def coursechat(course_id):
     form = ChatForm()
-    course = Course.query.filter_by(course_id = course_id)
-    chatbot_history = ChatbotHistory.query.filter_by(course_id = course_id).order_by(ChatbotHistory.date_posted.desc())
-    user_history = UserHistory.query.filter_by(course_id = course_id).order_by(UserHistory.date_posted.desc())
+    course = Course.query.filter_by(id = course_id)
+    chatbot_history = ChatbotHistory.query.filter_by(id = course_id).order_by(ChatbotHistory.time_asked.desc())
+    user_history = UserHistory.query.filter_by(id = course_id).order_by(UserHistory.time_asked.desc())
+    log(f"here? {course}\n{chatbot_history}\n{user_history}")
+
 
     if form.validate_on_submit():
+        log("Fetched course!")
         msg = form.msg
         answer = response(course.course_chat_id,msg)
         new_msg = UserHistory(chatbotmsg = msg, course_id = course_id)
