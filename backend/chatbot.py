@@ -4,7 +4,7 @@ import time
 from backboard import BackboardClient
 import os
 
-load_dotenv
+load_dotenv()
 
 API_KEY = os.environ.get('API_KEY')
 client = BackboardClient(api_key=API_KEY)

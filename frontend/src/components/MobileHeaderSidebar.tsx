@@ -3,9 +3,10 @@ import { SidebarNavigationSimple } from "@/components/application/app-navigation
 import { ThemeToggle } from '@/components/base/theme-toggle';
 import type { NavItemType } from "@/components/application/app-navigation/config";
 import Toggle from '@/components/Toggle'
+import type { Course } from "@/types/Course";
 
 type MobileProps = {
-    currentClass: string;
+    currentClass: Course;
     currentMode: string;
     setModeFunc: React.Dispatch<React.SetStateAction<string>>;
     classes: NavItemType[];
@@ -15,7 +16,7 @@ type MobileProps = {
 const MobileHeaderSidebar = ({ currentClass, currentMode, setModeFunc, classes, setClassFunc }: MobileProps) => {
     const content = (
         <span className="w-full flex items-center justify-between">
-            <span className="prose"><h1>{currentClass}</h1></span>
+            <span className="prose"><h1>{currentClass.title}</h1></span>
             <Toggle mode={currentMode} setModeFunc={setModeFunc} />
         </span>
     )

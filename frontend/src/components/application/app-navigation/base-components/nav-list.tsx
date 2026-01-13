@@ -3,12 +3,13 @@ import type { NavItemDividerType, NavItemType } from "../config";
 import type { Key } from "react-aria-components";
 import { NavItemBase } from "./nav-item";
 import { useState } from "react";
+import type { Course } from "@/types/Course";
 
 interface NavListProps {
     /** Name/index of currently */
     activeItem: Key;
     /** function to call when an item is clicked */
-    activeItemFunc: React.Dispatch<React.SetStateAction<string>>;
+    activeItemFunc: React.Dispatch<React.SetStateAction<Course>>;
     /** List of items to display. */
     items: (NavItemType | NavItemDividerType)[];
     /** Additional CSS classes to apply to the list. */

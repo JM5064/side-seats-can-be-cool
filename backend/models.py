@@ -15,7 +15,7 @@ class Course(db.Model):
     course_thread_id = course_chat_id = db.Column(db.String(100), nullable = False)
     chatbot_history = db.relationship('ChatbotHistory', lazy = True)
     user_history = db.relationship('UserHistory', lazy = True)
-    Images = db.relationship('Images', lazy = True)
+    # Images = db.relationship('Images', lazy = True)
 
 
 class Images(db.Model):

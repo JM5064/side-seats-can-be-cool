@@ -1,10 +1,11 @@
 import { SidebarNavigationSimple } from "@/components/application/app-navigation/sidebar-navigation/sidebar-simple";
+import { type Course } from "@/types/Course";
 import type { NavItemType } from "./application/app-navigation/config";
 
 type SidebarProps = {
-    currentClass: string,
+    currentClass: Course,
     classes: NavItemType[];
-    setClassFunc: React.Dispatch<React.SetStateAction<string>>
+    setClassFunc: React.Dispatch<React.SetStateAction<Course>>
 }
 
 const Sidebar = ({ currentClass, setClassFunc, classes }: SidebarProps) => (
@@ -12,7 +13,7 @@ const Sidebar = ({ currentClass, setClassFunc, classes }: SidebarProps) => (
         {/* Desktop sidebar navigation */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:flex">
             <SidebarNavigationSimple
-                activeItem={currentClass}
+                activeItem={currentClass.title}
                 activeItemFunc={setClassFunc}
                 items={classes}
             />

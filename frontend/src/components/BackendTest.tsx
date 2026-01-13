@@ -4,11 +4,11 @@ const BackendTest = () => {
     console.log("Button clicked")
 
     const formData = new FormData();
-    formData.append("title", "Test Course"); // must match field name in CreateForm  
+    formData.append("title", "COMP 551");
   
-    const res = await fetch("http://127.0.0.1:5000/createclass", {
-      method: "POST",
-      body: formData,
+    const res = await fetch("http://127.0.0.1:5000/coursechat/1", {
+      method: "GET",
+      // body: formData,
       credentials: "include"
     });
   
