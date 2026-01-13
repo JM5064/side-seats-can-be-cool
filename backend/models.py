@@ -11,7 +11,7 @@ db = SQLAlchemy()
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     course_name = db.Column(db.String(20), unique = True, nullable = False)
-    course_chat_id = db.Column(db.Integer, unique = True, nullable = False)
+    course_chat_id = db.Column(db.String(100), unique = True, nullable = False)
     chatbot_history = db.relationship('ChatbotHistory', lazy = True)
     user_history = db.relationship('UserHistory', lazy = True)
     Images = db.relationship('Images', lazy = True)
