@@ -25,10 +25,10 @@ const Chatbot = () => {
   ]
 
   return (
-    <div className='flex h-full w-full flex-col bg-primary'>
+    <>
         <Messages messages={testMessages} />
         <Chat />
-    </div>
+    </>
   )
 }
 

@@ -4,12 +4,14 @@ import { TextArea } from '@/components/base/textarea/textarea';
 
 const Chat = () => {
     return (
-        <div className='h-min w-5/6 flex gap-4 p-8 border-2'>
-            {/* <Input isRequired placeholder="Ask a question..." className='w-md'/> */}
-            <TextArea isRequired placeholder='Ask a question...' rows={3} />
-            <Button color="secondary" size="md" iconLeading={Send01} aria-label="Button CTA" />
-        </div>
+        <footer className='w-full p-4 shadow-[inset_0px_1px_0px_0px] shadow-border-secondary md:px-6'>
+            <form className='flex h-24 items-center gap-4 p-8'>
+                <TextArea isRequired placeholder='Ask a question...' aria-label="Button CTA"/>
+                <Button color="secondary" size="md" iconLeading={Send01} aria-label="Button CTA" />
+            </form>
+        </footer>
     )
 };
+
 
 export default Chat

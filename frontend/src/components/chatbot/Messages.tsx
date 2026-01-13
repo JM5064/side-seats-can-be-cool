@@ -8,10 +8,12 @@ type MessagesProps = {
 const Messages = ({ messages }: MessagesProps) => {
 
   return (
-    <div className='flex-1 overflow-y-auto px-4 py-6 space-y-4'>
-      <ol className='flex h-full flex-col gap-4 overflow-y-auto px-4 py-6 md:px-6'>
-        {messages.map((message) =>
-          <Message message={message} />
+    <div className='flex-1 overflow-y-auto'>
+      <ol className='flex h-content flex-col gap-8 px-6 py-8 md:px-8'>
+        {messages.map((message, index) =>
+          <li key={index} className='relative flex items-start gap-3'>
+            <Message message={message} />
+          </li>
         )}
       </ol>
     </div>
