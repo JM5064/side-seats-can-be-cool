@@ -1,9 +1,14 @@
 import Chat from '@/components/chatbot/Chat'
 import Messages from '@/components/chatbot/Messages'
+import type { Course } from '@/types/Course'
 import { type MessageType } from '@/types/MessageType'
 
+interface ChatbotProps {
+  currentClass: Course
+}
 
-const Chatbot = () => {
+
+const Chatbot = ({ currentClass }: ChatbotProps) => {
 
   const testMessages = [
     {
@@ -27,7 +32,7 @@ const Chatbot = () => {
   return (
     <>
         <Messages messages={testMessages} />
-        <Chat />
+        <Chat currentClass={currentClass} />
     </>
   )
 }

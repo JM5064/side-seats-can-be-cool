@@ -2,12 +2,13 @@ import { cx } from "@/utils/cx";
 import { NavList } from "../base-components/nav-list";
 import type { NavItemType } from "../config";
 import type { Key } from "react-aria-components";
+import type { Course } from "@/types/Course";
 
 interface SidebarNavigationProps {
     /** Name/index of currently active item*/
     activeItem: Key;
     /** function to call when an item is clicked */
-    activeItemFunc: React.Dispatch<React.SetStateAction<string>>;
+    activeItemFunc: React.Dispatch<React.SetStateAction<Course>>;
     /** List of items to display. */
     items: NavItemType[];
     /** Additional CSS classes to apply to the sidebar. */

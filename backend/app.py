@@ -64,10 +64,10 @@ def coursechat(course_id):
         db.session.add(new_msg)
         db.session.add(new_answer)
         db.session.commit()
-        return {"status": "ok", "course_id": new_course.id}, 400
+        return {"status": "ok", "course_id": new_course.id}, 201
         #return redirect(f'/coursechat/{course_id}')
 
-    return {"status": "error", "errors": form.errors}, 201
+    return {"status": "error", "errors": form.errors}, 400
     #return render_template('chat.html', form = form, bot_history = chatbot_history, user_history = user_history)
 
 

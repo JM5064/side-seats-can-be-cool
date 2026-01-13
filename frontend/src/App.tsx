@@ -6,14 +6,14 @@ import { ThemeToggle } from '@/components/base/theme-toggle';
 import Toggle from '@/components/Toggle'
 import Video from '@/components/video/Video'
 import Chatbot from '@/components/chatbot/Chatbot'
+import { type Course } from '@/types/Course'
 import BackendTest from '@/components/BackendTest'
 import '@/App.css'
 
 function App() {
 
   const [currentMode, setCurrentMode] = useState('chatbot')
-  const [currentClass, setCurrentClass] = useState('math')
-  // const [currentClass, setCurrentClass] = useState('testClass')
+  const [currentClass, setCurrentClass] = useState<Course>({ title: "math", id: 1 })
 
   const allClasses = [
     {
@@ -28,7 +28,7 @@ function App() {
 
   const content = (
     <span className="w-full flex items-center justify-between">
-      <span className="prose"><h1>{currentClass}</h1></span>
+      <span className="prose"><h1>{currentClass.title}</h1></span>
       <Toggle mode={currentMode} setModeFunc={setCurrentMode} />
     </span>
   )
@@ -39,7 +39,7 @@ function App() {
 
   const sidebarContent = (
     <SidebarNavigationSimple
-      activeItem={currentClass}
+      activeItem={currentClass.title}
       activeItemFunc={setCurrentClass}
       items={allClasses}
     />
@@ -82,11 +82,10 @@ function App() {
           </aside>
         </MobileNavigationHeader>
 
-        {/* Main screen */}
-        {currentMode === 'video' ?
-          <Video /> :
-          <Chatbot />
-        }
+          {currentMode === 'video' ?
+            <Video /> :
+            <Chatbot currentClass={currentClass}/>
+          }
       </div>
 
       {/* <BackendTest /> */}
