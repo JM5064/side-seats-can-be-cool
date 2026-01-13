@@ -1,7 +1,9 @@
 import { useState } from 'react'
-import Sidebar from '@/components/Sidebar'
-import Header from '@/components/Header'
-import MobileHeaderSidebar from '@/components/MobileHeaderSidebar'
+import { SidebarNavigationSimple } from "@/components/application/app-navigation/sidebar-navigation/sidebar-simple";
+import { HeaderNavigationBase } from "@/components/application/app-navigation/header-navigation";
+import { MobileNavigationHeader } from "@/components/application/app-navigation/base-components/mobile-header"
+import { ThemeToggle } from '@/components/base/theme-toggle';
+import Toggle from '@/components/Toggle'
 import Video from '@/components/video/Video'
 import Chatbot from '@/components/chatbot/Chatbot'
 import BackendTest from '@/components/BackendTest'
@@ -24,21 +26,67 @@ function App() {
     },
   ]
 
+  const content = (
+    <span className="w-full flex items-center justify-between">
+      <span className="prose"><h1>{currentClass}</h1></span>
+      <Toggle mode={currentMode} setModeFunc={setCurrentMode} />
+    </span>
+  )
+
+  const trailingContent = (
+    <ThemeToggle />
+  )
+
+  const sidebarContent = (
+    <SidebarNavigationSimple
+      activeItem={currentClass}
+      activeItemFunc={setCurrentClass}
+      items={allClasses}
+    />
+  )
+
   return (
     <div className='flex flex-row'>
-      <Sidebar currentClass={currentClass} setClassFunc={setCurrentClass} classes={allClasses} />
+      {/* Desktop sidebar navigation */}
+      <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:flex">
+        {sidebarContent}
+      </div>
+
+      {/* Placeholder to take up physical space because the real sidebar has `fixed` position. */}
+      <div
+        style={{
+          paddingLeft: 296,
+        }}
+        className="invisible hidden lg:sticky lg:top-0 lg:bottom-0 lg:left-0 lg:block"
+      />
 
       <div className='h-svh w-svw flex flex-col bg-primary'>
-          <Header currentClass={currentClass} currentMode={currentMode} setModeFunc={setCurrentMode} />
 
-          <MobileHeaderSidebar
-            currentClass={currentClass} currentMode={currentMode} setModeFunc={setCurrentMode}
-            setClassFunc={setCurrentClass} classes={allClasses} />
+        {/* Desktop header */}
+        <HeaderNavigationBase
+          content={content}
+          trailingContent={trailingContent}
+          showAvatarDropdown={false}
+        />
 
-          {currentMode === 'video' ?
-            <Video /> :
-            <Chatbot />
-          }
+        {/* Mobile header plus sidebar */}
+        <MobileNavigationHeader content={content}>
+          <aside className="flex h-full w-full flex-col justify-between overflow-auto border-r border-secondary bg-primary pt-4 lg:pt-6">
+            <div className="flex flex-col gap-5 px-4 lg:px-5">
+              {sidebarContent}
+            </div>
+
+            <div className="mt-auto flex flex-col gap-4 px-2 py-4 lg:px-4 lg:py-6">
+              {trailingContent}
+            </div>
+          </aside>
+        </MobileNavigationHeader>
+
+        {/* Main screen */}
+        {currentMode === 'video' ?
+          <Video /> :
+          <Chatbot />
+        }
       </div>
 
       {/* <BackendTest /> */}

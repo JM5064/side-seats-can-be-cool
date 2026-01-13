@@ -9,9 +9,11 @@ const Messages = ({ messages }: MessagesProps) => {
 
   return (
     <div className='flex-1 overflow-y-auto px-4 py-6 space-y-4'>
-      {messages.map((message) => 
-        <Message message={message} />
-      )}
+      <ol className='flex h-full flex-col gap-4 overflow-y-auto px-4 py-6 md:px-6'>
+        {messages.map((message) =>
+          <Message message={message} />
+        )}
+      </ol>
     </div>
   )
 }
