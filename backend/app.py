@@ -10,17 +10,28 @@ load_dotenv
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True, origins=["http://localhost:5173"],)
+app.config["WTF_CSRF_ENABLED"] = False
 
 app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
 db.init_app(app)
 
+with app.app_context():
+    db.create_all()
+
 @app.route("/")
 @app.route("/home")
 def homepage():
+    new_course = Course(course_name = 'comp551', course_chat_id = 2)
+    db.session.add(new_course)
+    db.session.commit()
+    new_course = Course(course_name = 'comp552', course_chat_id = 3)
+    db.session.add(new_course)
+    db.session.commit()
     courses = Course.query.all()
-    render_template("index.html", courses = courses)
+    return {"ok": f'{courses}'} #{'courses' : courses }
+
 
 
 @app.route("/createclass", methods=["GET", "POST"])
@@ -31,11 +42,10 @@ def create_class(): # to create a new chat bot thread
         db.session.add(new_course)
         db.session.commit()
 
-        return 201
+        return {"status": "ok", "course_id": new_course.id}, 201
         # return redirect(url_for("home"))
-    
-    return {"ok": True}
 
+    return {"status": "error", "errors": form.errors}, 400
     # return render_template('create.html', form = form)
 
 
@@ -44,8 +54,8 @@ def create_class(): # to create a new chat bot thread
 def coursechat(course_id):
     form = ChatForm()
     course = Course.query.filter_by(course_id = course_id)
-    chatbot_history = ChatbotHistory.query.filter_by(course_id = course_id).order_by(Post.date_posted.desc())
-    user_history = UserHistory.query.filter_by(course_id = course_id).order_by(Post.date_posted.desc())
+    chatbot_history = ChatbotHistory.query.filter_by(course_id = course_id).order_by(ChatbotHistory.date_posted.desc())
+    user_history = UserHistory.query.filter_by(course_id = course_id).order_by(UserHistory.date_posted.desc())
 
     if form.validate_on_submit():
         msg = form.msg

@@ -9,13 +9,13 @@ BASE_URL = "https://app.backboard.io/api"
 HEADERS = {"X-API-Key": API_KEY}
 
 
-response = requests.post(
-    f"{BASE_URL}/assistants",
-    json={"name": "Support Bot"},
-    headers=HEADERS,
-)
-assistant_id = response.json()["assistant_id"]
-# assistant_id = 0
+# response = requests.post(
+#     f"{BASE_URL}/assistants",
+#     json={"name": "Support Bot"},
+#     headers=HEADERS,
+# )
+# assistant_id = response.json()["assistant_id"]
+assistant_id = 0
 
 
 def create_thread_id(assistant_id = assistant_id):

@@ -14,6 +14,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
 
 
+
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     course_name = db.Column(db.String(20), unique = True, nullable = False)
