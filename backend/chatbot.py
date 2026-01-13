@@ -35,29 +35,17 @@ def upload_document(assistant_id , imagepath ):
             return
         time.sleep(2)
 
-def response (msg , assistant_id):
+def create_thread(assistant_id):
+    thread = client.create_thread(assistant_id)
+    return thread.thread_id
+
+def response (msg , assistant_id , thread_id):
     thread = client.create_thread(assistant_id)
     response = client.add_message(
         thread_id=thread.thread_id,
         content=msg,
+        memory="Auto",
         stream=False
     )
     
     return response.content
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
