@@ -11,7 +11,7 @@ type HeaderProps = {
 const Header = ({ currentClass, currentMode, setModeFunc }: HeaderProps) => {
     const content = (
         <span className="w-full flex items-center justify-between">
-            <h1>Current Class: {currentClass}</h1>
+            <span className="prose"><h1>{currentClass}</h1></span>
             <Toggle mode={currentMode} setModeFunc={setModeFunc} />
         </span>
     )
@@ -24,6 +24,7 @@ const Header = ({ currentClass, currentMode, setModeFunc }: HeaderProps) => {
         <HeaderNavigationBase
             content={content}
             trailingContent={trailingContent}
+            showAvatarDropdown={false}
         />
     )
 };

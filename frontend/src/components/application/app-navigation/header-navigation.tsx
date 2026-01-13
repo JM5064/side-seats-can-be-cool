@@ -38,21 +38,14 @@ export const HeaderNavigationBase = ({
 
             <header className="max-lg:hidden">
                 <section
-                    className={cx(
-                        "flex h-16 w-full items-center justify-center bg-primary md:h-18",
-                        "border-b border-secondary",
-                    )}
+                    className="flex h-16 w-full items-center justify-center bg-primary md:h-18 border-b border-secondary"
                 >
-                    <div className="flex w-full max-w-container justify-between pr-3 pl-4 md:px-8">
-                        <div className="flex flex-1 items-center gap-4">
-                            <h1>header in header</h1>
+                    <div className="flex w-full max-w-container gap-8 pr-3 pl-4 md:px-8">
+                        <nav className="flex-1">
+                            {content}
+                        </nav>
 
-                            <nav>
-                                {content}
-                            </nav>
-                        </div>
-
-                        <div className="flex items-center gap-3">
+                        <div className="flex flex-none items-center gap-3">
                             {trailingContent}
 
                             {showAvatarDropdown && (

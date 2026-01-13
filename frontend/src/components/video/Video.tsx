@@ -204,7 +204,7 @@ const Video = () => {
 
 
   return (
-    <div className="relative w-full h-screen flex items-center justify-center overflow-hidden">
+    <div className="relative bg-primary w-full h-screen flex items-center justify-center overflow-hidden">
       <div className="relative w-fit h-fit">
         <video ref={videoRef} autoPlay playsInline muted className="block max-h-screen max-w-full" />
         <canvas ref={canvasRef} className="absolute inset-0 w-full h-full z-10" />

@@ -1,5 +1,4 @@
 import { MobileNavigationHeader } from "@/components/application/app-navigation/base-components/mobile-header"
-import { NavAccountCard } from "@/components/application/app-navigation/base-components/nav-account-card"
 import { SidebarNavigationSimple } from "@/components/application/app-navigation/sidebar-navigation/sidebar-simple";
 import { ThemeToggle } from '@/components/base/theme-toggle';
 import type { NavItemType } from "@/components/application/app-navigation/config";
@@ -16,7 +15,7 @@ type MobileProps = {
 const MobileHeaderSidebar = ({ currentClass, currentMode, setModeFunc, classes, setClassFunc }: MobileProps) => {
     const content = (
         <span className="w-full flex items-center justify-between">
-            <h1>{currentClass}</h1>
+            <span className="prose"><h1>{currentClass}</h1></span>
             <Toggle mode={currentMode} setModeFunc={setModeFunc} />
         </span>
     )
@@ -37,11 +36,7 @@ const MobileHeaderSidebar = ({ currentClass, currentMode, setModeFunc, classes, 
                 </div>
 
                 <div className="mt-auto flex flex-col gap-4 px-2 py-4 lg:px-4 lg:py-6">
-                    <div className="flex flex-col gap-1">
-                        {trailingContent}
-                    </div>
-
-                    {/* <NavAccountCard /> */}
+                    {trailingContent}
                 </div>
             </aside>
         </MobileNavigationHeader>
