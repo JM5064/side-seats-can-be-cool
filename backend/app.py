@@ -10,6 +10,7 @@ load_dotenv
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True, origins=["http://localhost:5173"],)
+app.config["WTF_CSRF_ENABLED"] = False
 
 app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
@@ -28,18 +29,17 @@ def homepage():
 
 
 @app.route("/createclass", methods=["GET", "POST"])
-def create_class(): # to create a new chat bot threadg
+def create_class(): # to create a new chat bot thread
     form = CreateForm()
     if form.validate_on_submit():
         new_course = Course(course_name = form.title.data, course_chat_id = create_thread_id())
         db.session.add(new_course)
         db.session.commit()
 
-        return 201
+        return {"status": "ok", "course_id": new_course.id}, 201
         # return redirect(url_for("home"))
-    
-    return {"ok": True}
 
+    return {"status": "error", "errors": form.errors}, 400
     # return render_template('create.html', form = form)
 
 

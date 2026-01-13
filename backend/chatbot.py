@@ -4,19 +4,18 @@ import os
 
 load_dotenv
 
-#API_KEY = os.environ.get('API_KEY')
-API_KEY = 'espr_16nH6kv_GNBonUwPVucy1dk2faNbhPyHw9Iii6dq73I'
+API_KEY = os.environ.get('API_KEY')
 BASE_URL = "https://app.backboard.io/api"
 HEADERS = {"X-API-Key": API_KEY}
 
 
-response = requests.post(
-    f"{BASE_URL}/assistants",
-    json={"name": "Support Bot"},
-    headers=HEADERS,
-)
-assistant_id = response.json()["assistant_id"]
-# assistant_id = 0
+# response = requests.post(
+#     f"{BASE_URL}/assistants",
+#     json={"name": "Support Bot"},
+#     headers=HEADERS,
+# )
+# assistant_id = response.json()["assistant_id"]
+assistant_id = 0
 
 
 def create_thread_id(assistant_id = assistant_id):
