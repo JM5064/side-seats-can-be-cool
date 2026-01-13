@@ -38,3 +38,6 @@ def response(thread_id, question):
     )
     return response.json().get("content")
     
+
+create_thread_id(assistant_id)
+

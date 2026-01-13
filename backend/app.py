@@ -22,14 +22,8 @@ with app.app_context():
 @app.route("/")
 @app.route("/home")
 def homepage():
-    new_course = Course(course_name = 'comp551', course_chat_id = 2)
-    db.session.add(new_course)
-    db.session.commit()
-    new_course = Course(course_name = 'comp552', course_chat_id = 3)
-    db.session.add(new_course)
-    db.session.commit()
     courses = Course.query.all()
-    return {"ok": f'{courses}'} #{'courses' : courses }
+    return {"ok": f'{courses}'} 
 
 
 
@@ -69,6 +63,8 @@ def coursechat(course_id):
     
     return render_template('chat.html', form = form, bot_history = chatbot_history, 
                            user_history = user_history)
+
+
 
 
 if __name__ == "__main__":
