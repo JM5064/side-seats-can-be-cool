@@ -1,42 +1,63 @@
 import requests
 from dotenv import load_dotenv
+import time
+from backboard import BackboardClient
 import os
 
 load_dotenv
 
 API_KEY = os.environ.get('API_KEY')
-BASE_URL = "https://app.backboard.io/api"
-HEADERS = {"X-API-Key": API_KEY}
+client = BackboardClient(api_key=API_KEY)
 
 
-# response = requests.post(
-#     f"{BASE_URL}/assistants",
-#     json={"name": "Support Bot"},
-#     headers=HEADERS,
-# )
-# assistant_id = response.json()["assistant_id"]
-assistant_id = 0
+def create_assistant():
+    assistant = client.create_assistant(
+        name="Assistant",
+        description="An assistant that can analyze documents"
+    )
+    return assistant.assistant_id
 
 
-def create_thread_id(assistant_id = assistant_id):
-    response = requests.post(
-        f"{BASE_URL}/assistants/{assistant_id}/threads",
-        json={},
-        headers=HEADERS,
+def upload_document(assistant_id , imagepath ):
+    document = client.upload_document_to_assistant(
+        assistant_id,
+        imagepath
     )
 
-    thread_id = response.json()["thread_id"]
-    return thread_id
+    print("Waiting for document to be indexed...")
+    while True:
+        status = client.get_document_status(document.document_id)
+        if status.status == "indexed":
+            print("Document indexed successfully!")
+            break
+        elif status.status == "failed":
+            print(f"Document indexing failed: {status.status_message}")
+            return
+        time.sleep(2)
 
-
-def response(thread_id, question):
-    response = requests.post(
-        f"{BASE_URL}/threads/{thread_id}/messages",
-        headers=HEADERS,
-        data={"content": question , "stream": "false", "memory": "Auto"},
+def response (msg , assistant_id):
+    thread = client.create_thread(assistant_id)
+    response = client.add_message(
+        thread_id=thread.thread_id,
+        content=msg,
+        stream=False
     )
-    return response.json().get("content")
     
+    return response.content
 
-create_thread_id(assistant_id)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
