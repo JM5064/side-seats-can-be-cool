@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField , FileField 
 from wtforms.validators import DataRequired
 
 
@@ -19,7 +19,7 @@ class Course(db.Model):
 
 class Images(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    Images = db.Column(db.String(20))
+    Images_path = db.Column(db.String(100))
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable = False)
 
 
@@ -44,4 +44,9 @@ class CreateForm(FlaskForm):
 
 class ChatForm(FlaskForm):
     msg = StringField('Title', validators = [DataRequired()])
+    submit = SubmitField('Post')
+
+
+class PhotoForm(FlaskForm):
+    photo = FileField(validators=[DataRequired()])
     submit = SubmitField('Post')
