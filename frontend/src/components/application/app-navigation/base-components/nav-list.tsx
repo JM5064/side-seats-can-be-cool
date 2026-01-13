@@ -19,7 +19,7 @@ export const NavList = ({ activeItem, activeItemFunc, items, className }: NavLis
     const [selectedItem, setSelectedItem] = useState<Key>(activeItem);
 
     return (
-        <ul className={cx("mt-4 flex flex-col px-2 lg:px-4", className)}>
+        <ul className={cx("flex flex-col", className)}>
             {items.map((item, index) => {
                 if (item.divider) {
                     return (

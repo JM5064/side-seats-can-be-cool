@@ -18,9 +18,9 @@ export const MobileNavigationHeader = ({ content, children }: PropsWithChildren<
     return (
         <AriaDialogTrigger>
             <header className="flex h-16 items-center justify-between border-b border-secondary bg-primary py-3 pr-2 pl-4 lg:hidden">
-                <h1>mobileheader in mobileheader</h1>
-
-                {content}
+                <nav className="flex-1 px-3 md:px-8">
+                    {content}
+                </nav>
 
                 <AriaButton
                     aria-label="Expand navigation menu"

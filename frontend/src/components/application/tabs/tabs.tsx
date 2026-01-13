@@ -213,7 +213,7 @@ export const Tabs = ({ className, ...props }: ComponentPropsWithRef<typeof AriaT
         <AriaTabs
             keyboardActivation="manual"
             {...props}
-            className={(state) => cx("flex w-full flex-col", typeof className === "function" ? className(state) : className)}
+            className={(state) => cx("flex flex-col", typeof className === "function" ? className(state) : className)}
         />
     );
 };

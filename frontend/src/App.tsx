@@ -25,22 +25,24 @@ function App() {
   ]
 
   return (
-    <>
+    <div className='flex'>
       <Sidebar currentClass={currentClass} setClassFunc={setCurrentClass} classes={allClasses} />
 
-      <Header currentClass={currentClass} currentMode={currentMode} setModeFunc={setCurrentMode} />
-      
-      <MobileHeaderSidebar 
-      currentClass={currentClass} currentMode={currentMode} setModeFunc={setCurrentMode}
-      setClassFunc={setCurrentClass} classes={allClasses} />
+      <div className='h-svh grow-2'>
+        <Header currentClass={currentClass} currentMode={currentMode} setModeFunc={setCurrentMode} />
 
-      {currentMode === 'video' ?
-                <Video /> :
-                <Chatbot />
-            }
+        <MobileHeaderSidebar
+          currentClass={currentClass} currentMode={currentMode} setModeFunc={setCurrentMode}
+          setClassFunc={setCurrentClass} classes={allClasses} />
+
+        {currentMode === 'video' ?
+          <Video /> :
+          <Chatbot />
+        }
+      </div>
 
       {/* <BackendTest /> */}
-    </>
+    </div>
   )
 }
 

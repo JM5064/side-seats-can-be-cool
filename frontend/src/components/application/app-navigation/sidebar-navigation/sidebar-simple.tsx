@@ -34,20 +34,18 @@ export const SidebarNavigationSimple = ({
                 className,
             )}
         >
-            <div className="flex flex-col gap-5 px-2 py-4 lg:px-4 lg:py-6">
+            <div className="flex flex-col gap-5 px-4 lg:px-6 prose">
                 <h1>sidebar</h1>
             </div>
 
-            <NavList activeItem={activeItem} items={items} 
-                activeItemFunc={activeItemFunc} />
-
-            <div className="mt-auto flex flex-col gap-4 px-2 py-4 lg:px-4 lg:py-6">
-                ????
+            <div className="mb-auto flex flex-col gap-4 px-2 py-4 lg:px-4 lg:py-6">
+                <NavList activeItem={activeItem} items={items}
+                    activeItemFunc={activeItemFunc} />
             </div>
         </aside>
     );
 
-    return ( 
+    return (
         content
         // <>
         //     {/* Mobile header navigation */}
