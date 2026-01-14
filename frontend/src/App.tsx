@@ -15,21 +15,8 @@ import NewClassModal from './components/chatbot/NewClassModal';
 import BackendTest from './components/BackendTest';
 
 function App() {
-  // const allClasses = [
-  //   {
-  //     title: "Math",
-  //     id: 1,
-  //   },
-  //   {
-  //     title: "Also math",
-  //     id: 2,
-  //   },
-  // ]
 
-  const [allClasses, setAllClasses] = useState<Course[]>([{
-    title: "Math",
-    id: 1,
-  }])
+  const [allClasses, setAllClasses] = useState<Course[]>([])
   const [currentMode, setCurrentMode] = useState('chatbot')
   const [currentClass, setCurrentClass] = useState<Course>(allClasses[0])
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -37,8 +24,12 @@ function App() {
 
   const content = (
     <span className="w-full flex items-center justify-between">
-      <span className="prose"><h1>{currentClass.title}</h1></span>
-      <Toggle mode={currentMode} setModeFunc={setCurrentMode} />
+      <span className="prose">
+        {currentClass ?
+          <h1>{currentClass.title}</h1> :
+          <p>Welcome, please add a class</p>}
+      </span>
+      {currentClass && <Toggle mode={currentMode} setModeFunc={setCurrentMode} />}
     </span>
   )
 
@@ -48,10 +39,10 @@ function App() {
 
   const sidebarContent = (
     <SidebarNavigationSimple>
-      <NavList activeItem={currentClass} items={allClasses}
-        activeItemFunc={setCurrentClass} />
+      {currentClass && <NavList activeItem={currentClass} items={allClasses}
+        activeItemFunc={setCurrentClass} />}
       <Button
-        onClick={() => {setShowModal(true)}}
+        onClick={() => { setShowModal(true) }}
         iconLeading={Plus}
         color="tertiary"
         size="md">
@@ -82,7 +73,7 @@ function App() {
   return (
     <div className='flex flex-row'>
 
-      {showModal && <NewClassModal allClasses={allClasses} setAllClasses={setAllClasses} closeFunc={setShowModal}/>}
+      {showModal && <NewClassModal allClasses={allClasses} setAllClasses={setAllClasses} setCurrentClass={setCurrentClass} closeFunc={setShowModal} />}
 
       {/* Desktop sidebar navigation */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:flex">
@@ -119,10 +110,9 @@ function App() {
           </aside>
         </MobileNavigationHeader>
 
-        {currentMode === 'video' ?
+        {currentClass && (currentMode === 'video' ?
           <Video currentClass={currentClass} /> :
-          <Chatbot currentClass={currentClass} />
-        }
+          <Chatbot currentClass={currentClass} />)}
       </div>
 
       {/* <BackendTest /> */}

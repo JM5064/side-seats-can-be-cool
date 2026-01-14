@@ -7,9 +7,10 @@ type ModalProps = {
     closeFunc: ((func: React.SetStateAction<boolean>) => void),
     allClasses: Course[]
     setAllClasses: React.Dispatch<React.SetStateAction<Course[]>>
+    setCurrentClass: React.Dispatch<React.SetStateAction<Course>>
 }
 
-const NewClassModal = ({ closeFunc, allClasses, setAllClasses }: ModalProps) => {
+const NewClassModal = ({ closeFunc, allClasses, setAllClasses, setCurrentClass }: ModalProps) => {
     const [resp, setResp] = useState("");
 
     const formSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -37,6 +38,7 @@ const NewClassModal = ({ closeFunc, allClasses, setAllClasses }: ModalProps) => 
                 title: title
             }
             setAllClasses([...allClasses, newClass])
+            setCurrentClass(newClass)
         }
     }
 
