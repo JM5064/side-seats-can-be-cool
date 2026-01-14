@@ -1,5 +1,4 @@
 - high priority:
-    - on reload + on switch classes, display messages from database
     - load classes from database
 
 - low priority:
@@ -12,4 +11,5 @@
 
 - done (yippee):
     - make camera button do something
+    - on reload + on switch classes, display messages from database
 

@@ -21,13 +21,11 @@ export const NavList = ({ activeItem, activeItemFunc, items, className }: NavLis
     return (
         <ul className={cx("flex flex-col", className)}>
             {items.map((item, index) => {
-                // if (item.divider) {
-                //     return (
-                //         <li key={index} className="w-full px-0.5 py-2">
-                //             <hr className="h-px w-full border-none bg-border-secondary" />
-                //         </li>   
-                //     );
-                // }
+                if (item.isNull) {
+                    return (
+                        <></>
+                    );
+                }
 
                 return (
                     <li key={index} className="py-0.5">
