@@ -51,7 +51,7 @@ function App() {
 
   useEffect(() => {
     const fetchCourses = async () => {
-      const res = await fetch(`http://127.0.0.1:5000/getcourses`, {
+      const res = await fetch(`https://jm5064.github.io/side-seats-can-be-cool/getcourses`, {
         method: "GET",
         credentials: "include"
       });
