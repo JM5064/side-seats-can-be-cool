@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, redirect
 from models import db, Course, Images, ChatbotHistory, UserHistory, CreateForm, ChatForm , PhotoForm
-from chatbot import create_assistant, response , upload_document
+from chatbot import create_assistant, response , upload_document , create_thread
 from flask_cors import CORS
 from dotenv import load_dotenv
 from log import log
@@ -33,7 +33,8 @@ def homepage():
 def create_class(): # to create a new chat bot thread
     form = CreateForm()
     if form.validate_on_submit():
-        new_course = Course(course_name = form.title.data, course_chat_id = create_assistant())
+        new_course_assistant = create_assistant()
+        new_course = Course(course_name = form.title.data, course_chat_id = new_course_assistant , course_thread_id = create_thread(new_course_assistant))
         db.session.add(new_course)
         db.session.commit()
 
@@ -58,13 +59,15 @@ def coursechat(course_id):
     if form.validate_on_submit():
         log("Fetched course!")
         msg = form.msg
-        answer = response(course.course_chat_id,msg)
+        answer = response(course.course_chat_id,msg , course.course_thread_id)
         new_msg = UserHistory(chatbotmsg = msg, course_id = course_id)
         new_answer = ChatbotHistory(chatbotmsg = answer, course_id = course_id)
         db.session.add(new_msg)
         db.session.add(new_answer)
         db.session.commit()
-        return {"status": "ok", "course_id": new_course.id}, 201
+
+        return {"status": "ok", "course_id": course_id}, 400
+
         #return redirect(f'/coursechat/{course_id}')
 
     return {"status": "error", "errors": form.errors}, 400
@@ -83,10 +86,12 @@ def upload(course_id):
         image = Images(Images_paths = full_path , course_id = course_id)
         db.session.add(image)
         db.session.commit()
+
         assistant_id = Course.query.filter_by(course_id = course_id).course_chat_id()
         upload_document(assistant_id , full_path )
         return {"status": "ok"}, 400
     return {"status": "error", "errors": form.errors}, 201
+
 
 
 if __name__ == "__main__":
