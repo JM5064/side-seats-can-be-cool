@@ -11,7 +11,7 @@ import asyncio
 load_dotenv
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True, origins=["http://localhost:5173"],)
+CORS(app, supports_credentials=True, origins=["http://localhost:5173", "https://jm5064.github.io/side-seats-can-be-cool/"],)
 app.config["WTF_CSRF_ENABLED"] = False
 
 app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY')
