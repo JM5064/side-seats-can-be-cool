@@ -48,30 +48,22 @@ def create_class(): # to create a new chat bot thread
 
 
 @app.route("/coursechat/<int:course_id>", methods=["GET","POST"])
-def coursechat(course_id):
+async def coursechat(course_id):
     form = ChatForm()
-    course = Course.query.filter_by(id = course_id)
-    chatbot_history = ChatbotHistory.query.filter_by(id = course_id).order_by(ChatbotHistory.time_asked.desc())
-    user_history = UserHistory.query.filter_by(id = course_id).order_by(UserHistory.time_asked.desc())
-    log(f"here? {course}\n{chatbot_history}\n{user_history}")
-
+    course = Course.query.filter_by(id = course_id).first()
 
     if form.validate_on_submit():
-        log("Fetched course!")
-        msg = form.msg
-        answer = response(course.course_chat_id,msg , course.course_thread_id)
-        new_msg = UserHistory(chatbotmsg = msg, course_id = course_id)
-        new_answer = ChatbotHistory(chatbotmsg = answer, course_id = course_id)
+        msg = form.msg.data
+        answer = await response(msg, course.course_thread_id)
+        new_msg = UserHistory(chatbot_msg = msg, course_id = course_id)
+        new_answer = ChatbotHistory(chatbot_msg = answer, course_id = course_id)
         db.session.add(new_msg)
         db.session.add(new_answer)
         db.session.commit()
 
-        return {"status": "ok", "course_id": course_id}, 400
-
-        #return redirect(f'/coursechat/{course_id}')
+        return {"status": "ok", "course_id": course_id, "response": answer}, 201
 
     return {"status": "error", "errors": form.errors}, 400
-    #return render_template('chat.html', form = form, bot_history = chatbot_history, user_history = user_history)
 
 
 @app.route('/upload/<int:course_id>', methods=['GET', 'POST'])
@@ -86,8 +78,8 @@ def upload(course_id):
         image = Images(Images_paths = full_path , course_id = course_id)
         db.session.add(image)
         db.session.commit()
-
-        assistant_id = Course.query.filter_by(course_id = course_id).course_chat_id()
+        course = Course.query.filter_by(course_id = course_id)
+        assistant_id = course.course_chat_id
         upload_document(assistant_id , full_path )
         return {"status": "ok"}, 400
     return {"status": "error", "errors": form.errors}, 201

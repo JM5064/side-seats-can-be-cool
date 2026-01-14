@@ -10,10 +10,23 @@ interface ChatProps {
 const Chat = ({ currentClass }: ChatProps) => {
     const [input, setInput] = useState("")
 
-    const handleClick = () => {
-        setInput("")
+    const handleClick = async () => {
+        console.log("Button pressed! Attemping to send to backend")
 
         // Send request to backend
+        const formData = new FormData();
+        formData.append("msg", input)
+    
+        const res = await fetch("http://127.0.0.1:5000/coursechat/1", {
+            method: "POST",
+            body: formData,
+            credentials: "include"
+        });
+    
+        const data = await res.json();
+        console.log("Data received!", data)
+
+        setInput("")
     }
 
     const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
