@@ -13,24 +13,14 @@ interface ChatProps {
 const Chat = ({ currentClass, messages, setMessages }: ChatProps) => {
     const [input, setInput] = useState("")
 
-    const updateMessages = (text: string, messageFrom: string) => {
-        const message = {
-            text: text,
-            messageFrom: messageFrom
-        }
-
-        setMessages([...messages, message])
-    }
-
     const handleClick = async () => {
-        console.log("Button pressed! Attemping to send to backend")
+        const userMessages = [...messages, { text: input, messageFrom: "user" }]
+        setMessages(userMessages)
+        setInput("")
 
         // Send request to backend
         const formData = new FormData();
         formData.append("msg", input)
-
-        updateMessages(input, "user")
-        setInput("")
     
         const res = await fetch("http://127.0.0.1:5000/coursechat/1", {
             method: "POST",
@@ -41,7 +31,9 @@ const Chat = ({ currentClass, messages, setMessages }: ChatProps) => {
         const data = await res.json();
         
         console.log("Data received!", data)
-        updateMessages(data.response, "chatbot")
+        
+        const chatbotMessages = [...userMessages, { text: data.response, messageFrom: "chatbot" }]
+        setMessages(chatbotMessages)
     }
 
     const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
