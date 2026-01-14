@@ -74,6 +74,15 @@ async def get_chats(course_id):
 
     return {"status": "ok", "user_chats": user_chats_list, "chatbot_chats": chatbot_chats_list}, 201
 
+@app.route("/getcourses", methods=["GET"])
+async def get_courses():
+    courses = Course.query
+    
+    courses_list = [{ "title": course.course_name, "id": course.id } for course in courses]
+
+    return {"status": "ok", "courses": courses_list}, 201
+
+
 
 @app.route('/upload/<int:course_id>', methods=['GET', 'POST'])
 async def upload(course_id):

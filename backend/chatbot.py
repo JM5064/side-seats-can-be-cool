@@ -5,8 +5,12 @@ from backboard import BackboardClient
 import asyncio
 import os
 from log import log
+from openai import OpenAI
+import base64
+from google import genai
 
 load_dotenv()
+
 
 API_KEY = os.environ.get('API_KEY')
 
@@ -23,11 +27,40 @@ async def create_assistant():
     return assistant.assistant_id
 
 
-async def upload_document(assistant_id , imagepath ):
+async def create_txt_file_from_image(imagepath):
+        
+    client = genai.Client()
+    with open(imagepath, "rb") as f:
+        base64_image = base64.b64encode(f.read()).decode('utf-8')
+
+    interaction = client.interactions.create(
+        model="gemini-3-flash-preview",
+        input=[
+            {"type": "text", "text": "Describe all text in the image."},
+            {"type": "image", "data": base64_image, "mime_type": "image/png"}
+        ]
+    )
+
+    content = interaction.outputs[-1].text
+
+    filename = imagepath.rpartition('/')[-1]
+    filename.removesuffix(".jpeg")
+    filename = f'{filename}.txt' 
+    with open(filename, 'w') as f:
+        f.write(content)    
+    docs_dir = os.path.join(os.getcwd(), "documents")
+    full_path = f'{docs_dir}/{filename}'
+    os.rename(filename, full_path)
+    return full_path
+
+    
+
+async def upload_document(assistant_id , imagepath):
+    docpath = await create_txt_file_from_image(imagepath)
     client = initialize_client()
     document = await client.upload_document_to_assistant(
         assistant_id,
-        imagepath
+        docpath
     )
 
     print("Waiting for document to be indexed...")
@@ -47,6 +80,7 @@ async def create_thread(assistant_id):
     return thread.thread_id
 
 async def response(msg, thread_id):
+
     client = initialize_client()
     # thread = client.create_thread(assistant_id)
     response = await client.add_message(
@@ -60,13 +94,15 @@ async def response(msg, thread_id):
 
 
 async def main():
-    print(API_KEY)
-    ass = await create_assistant()
-    the = await create_thread(ass)
-    full_path = os.path.abspath('backend/photos/1e7cda1a9140476d992fbe352203bb29.jpeg')
-    await upload_document(ass,full_path)
-    resp = await response('how many people are in the file',the)
-    print(resp)
+    # ass = await create_assistant()
+    # the = await create_thread(ass)
+    # full_path = os.path.abspath('photos/9c604f02f955432689970dd441b0db7a.jpeg')
+    # await upload_document(ass,full_path)
+    # resp = await response('how many people are in the file',the)
+    # print(resp)
+    print('oke')
+
+
 
 
 if __name__ == "__main__":

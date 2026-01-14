@@ -1,0 +1,5 @@
+The text in the image consists of numbers on labels, likely identifying lockers:
+
+*   **6-025**: Located on the top left locker, above the person with curly hair.
+*   **6-043**: Located on the top middle-right locker, above the person in the grey hoodie.
+*   **6-047**: Located on the locker on the far right, near the middle-right edge of the image.
