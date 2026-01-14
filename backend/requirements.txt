@@ -6,3 +6,4 @@ flask_wtf
 requests
 backboard-sdk
 google-genai
+Flask-Cors

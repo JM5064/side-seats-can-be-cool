@@ -63,6 +63,7 @@ async def upload_document(assistant_id , imagepath):
     )
 
     print("Waiting for document to be indexed...")
+    log(docpath)
     while True:
         status = await client.get_document_status(document.document_id)
         if status.status == "indexed":

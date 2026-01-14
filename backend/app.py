@@ -27,7 +27,6 @@ async def initialize_database():
             Initial_chat = Course(course_name ='hello' , course_chat_id = new_course_assistant , course_thread_id = await create_thread(new_course_assistant))
             db.session.add(Initial_chat)
             db.session.commit()
-            log("oke")
 
         except:
             db.create_all()
