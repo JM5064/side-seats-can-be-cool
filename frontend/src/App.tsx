@@ -51,7 +51,7 @@ function App() {
 
   useEffect(() => {
     const fetchCourses = async () => {
-      const res = await fetch(`https://jm5064.github.io/side-seats-can-be-cool/getcourses`, {
+      const res = await fetch(`https://side-seats-can-be-cool.onrender.com/getcourses`, {
         method: "GET",
         credentials: "include"
       });

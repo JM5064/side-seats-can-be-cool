@@ -30,7 +30,7 @@ const Chat = ({ currentClass, messages, setMessages, setResponding }: ChatProps)
         // Send request to backend
         const formData = new FormData();
         formData.append("msg", input)
-        const res = await fetch(`https://jm5064.github.io/side-seats-can-be-cool/coursechat/${currentClass.id}`, {
+        const res = await fetch(`https://side-seats-can-be-cool.onrender.com/coursechat/${currentClass.id}`, {
             method: "POST",
             body: formData,
             credentials: "include"

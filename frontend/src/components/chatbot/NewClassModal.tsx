@@ -24,7 +24,7 @@ const NewClassModal = ({ closeFunc, allClasses, setAllClasses, setCurrentClass }
         // Send request to backend
         const formData = new FormData();
         formData.append("title", title)
-        const res = await fetch(`https://jm5064.github.io/side-seats-can-be-cool/createclass`, {
+        const res = await fetch(`https://side-seats-can-be-cool.onrender.com/createclass`, {
             method: "POST",
             body: formData,
             credentials: "include"
