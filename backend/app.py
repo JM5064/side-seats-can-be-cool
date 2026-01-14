@@ -18,13 +18,13 @@ app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
 db.init_app(app)
-async def initialize_database():
+def initialize_database():
     with app.app_context():
         db.create_all() 
         course = Course.query.first()
         if course is None:
-            new_course_assistant = await create_assistant()
-            Initial_chat = Course(course_name ='hello' , course_chat_id = new_course_assistant , course_thread_id = await create_thread(new_course_assistant))
+            new_course_assistant = asyncio.run(create_assistant())
+            Initial_chat = Course(course_name ='hello' , course_chat_id = new_course_assistant , course_thread_id = asyncio.run(create_thread(new_course_assistant)))
             db.session.add(Initial_chat)
             db.session.commit()   
 
@@ -118,7 +118,7 @@ async def upload(course_id):
     return {"status": "error", "errors": form.errors}, 400
 
 
-
-if __name__ == "__main__":
-    asyncio.run(initialize_database())
-    app.run(debug=True)
+initialize_database()
+# if __name__ == "__main__":
+    # initialize_database()
+    # app.run(debug=True)
