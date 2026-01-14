@@ -76,7 +76,7 @@ function App() {
               {sidebarContent}
             </div>
 
-            <div className="mt-auto flex flex-col gap-4 px-2 py-4 lg:px-4 lg:py-6">
+            <div className="mt-auto w-min flex flex-col gap-4 px-6 py-8">
               {trailingContent}
             </div>
           </aside>
