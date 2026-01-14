@@ -1,18 +1,43 @@
 import { useState } from "react";
 import { Input } from "@/components/base/input/input";
 import { Button } from "@/components/base/buttons/button";
+import type { Course } from "@/types/Course";
 
 type ModalProps = {
     closeFunc: ((func: React.SetStateAction<boolean>) => void),
+    allClasses: Course[]
+    setAllClasses: React.Dispatch<React.SetStateAction<Course[]>>
 }
 
-const NewClassModal = ({ closeFunc }: ModalProps) => {
+const NewClassModal = ({ closeFunc, allClasses, setAllClasses }: ModalProps) => {
     const [resp, setResp] = useState("");
 
-    const formSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const formSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log(resp);
         closeFunc(false)
+        await createClass(resp)
+    }
+
+    const createClass = async (title: string) => {
+        // Send request to backend
+        const formData = new FormData();
+        formData.append("title", title)
+        const res = await fetch(`http://127.0.0.1:5000/createclass`, {
+            method: "POST",
+            body: formData,
+            credentials: "include"
+        });
+
+        const data = await res.json();
+
+        if (data.status === "ok") {
+            const newClass = {
+                id: data.course_id,
+                title: title
+            }
+            setAllClasses([...allClasses, newClass])
+        }
     }
 
     return (
@@ -34,7 +59,7 @@ const NewClassModal = ({ closeFunc }: ModalProps) => {
                             <Button
                                 color="secondary-destructive"
                                 size="lg"
-                                onClick={(e) => closeFunc(false)}>
+                                onClick={(e: any) => closeFunc(false)}>
                                 Cancel
                             </Button>
                             <Button

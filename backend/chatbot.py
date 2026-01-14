@@ -8,10 +8,13 @@ import os
 load_dotenv()
 
 API_KEY = os.environ.get('API_KEY')
-client = BackboardClient(api_key=API_KEY)
+
+def initialize_client():
+    return BackboardClient(api_key=API_KEY)
 
 
 async def create_assistant():
+    client = initialize_client()
     assistant = await client.create_assistant(
         name="Assistant",
         description="An assistant that can analyze documents"
@@ -20,6 +23,7 @@ async def create_assistant():
 
 
 async def upload_document(assistant_id , imagepath ):
+    client = initialize_client()
     document = await client.upload_document_to_assistant(
         assistant_id,
         imagepath
@@ -37,10 +41,12 @@ async def upload_document(assistant_id , imagepath ):
         time.sleep(2)
 
 async def create_thread(assistant_id):
+    client = initialize_client()
     thread = await client.create_thread(assistant_id)
     return thread.thread_id
 
 async def response(msg, thread_id):
+    client = initialize_client()
     # thread = client.create_thread(assistant_id)
     response = await client.add_message(
         thread_id=thread_id,

@@ -14,17 +14,21 @@ import '@/App.css'
 import NewClassModal from './components/chatbot/NewClassModal';
 
 function App() {
-  const allClasses = [
-    {
-      title: "Math",
-      id: 1,
-    },
-    {
-      title: "Also math",
-      id: 2,
-    },
-  ]
+  // const allClasses = [
+  //   {
+  //     title: "Math",
+  //     id: 1,
+  //   },
+  //   {
+  //     title: "Also math",
+  //     id: 2,
+  //   },
+  // ]
 
+  const [allClasses, setAllClasses] = useState<Course[]>([{
+    title: "Math",
+    id: 1,
+  }])
   const [currentMode, setCurrentMode] = useState('chatbot')
   const [currentClass, setCurrentClass] = useState<Course>(allClasses[0])
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -58,7 +62,7 @@ function App() {
   return (
     <div className='flex flex-row'>
 
-      {showModal && <NewClassModal closeFunc={setShowModal}/>}
+      {showModal && <NewClassModal allClasses={allClasses} setAllClasses={setAllClasses} closeFunc={setShowModal}/>}
 
       {/* Desktop sidebar navigation */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:flex">
