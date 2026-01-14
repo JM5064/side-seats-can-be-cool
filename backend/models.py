@@ -10,12 +10,12 @@ db = SQLAlchemy()
 
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    course_name = db.Column(db.String(20), unique = True, nullable = False)
-    course_chat_id = db.Column(db.String(100), unique = True, nullable = False)
-    course_thread_id = db.Column(db.String(100), nullable = False)
+    course_name = db.Column(db.String(20), nullable = False)
+    course_chat_id = db.Column(db.Uuid, unique = True, nullable = False)
+    course_thread_id = db.Column(db.Uuid, nullable = False)
     chatbot_history = db.relationship('ChatbotHistory', lazy = True)
     user_history = db.relationship('UserHistory', lazy = True)
-    # Images = db.relationship('Images', lazy = True)
+    Images = db.relationship('Images', lazy = True)
 
 
 class Images(db.Model):

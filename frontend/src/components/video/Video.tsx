@@ -3,8 +3,13 @@ import { useRef, useEffect, useState } from 'react'
 import CaptureButton from '@/components/video/CaptureButton'
 import BoardSelector from '@/components/video/BoardSelector'
 import { type Point } from '@/types/point'
+import type { Course } from '@/types/Course'
 
-const Video = () => {
+interface VideoProps {
+  currentClass: Course
+}
+
+const Video = ({ currentClass }: VideoProps) => {
 
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -176,32 +181,30 @@ const Video = () => {
   }
 
   const handleClick = () => {
-    const processingCanvas = captureFrame()
-    if (!processingCanvas) {
+    const canvas = canvasRef.current
+    if (!canvas) {
       return
     }
 
-    // Send to backend
-    console.log("Image capture button clicked!")
+    // Turn canvas into blob to send to backend
+    canvas.toBlob(async (blob) => {
+      if (!blob) {
+        return
+      }
+  
+      const formData = new FormData()
+      formData.append("photo", blob)
+  
+      const res = await fetch(`http://127.0.0.1:5000/upload/${currentClass.id}`, {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      })
+  
+      const data = await res.json()
+      console.log("Data received!", data)
+    }, "image/jpeg")
   }
-
-  const captureFrame = (): HTMLCanvasElement | null => {
-    if (!canvasRef.current || !videoRef.current) {
-      console.log("Canvas not ready")
-      return null
-    }
-
-    const processingCanvas = document.createElement('canvas')
-    const video = videoRef.current
-    const ctx = processingCanvas.getContext('2d')!
-
-    processingCanvas.width = video.videoWidth
-    processingCanvas.height = video.videoHeight
-    ctx.drawImage(video, 0, 0)
-
-    return processingCanvas
-  }
-
 
   return (
     <div className="relative flex justify-center my-auto overflow-hidden">
