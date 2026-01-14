@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SidebarNavigationSimple } from "@/components/application/app-navigation/sidebar-navigation/sidebar-simple";
 import { HeaderNavigationBase } from "@/components/application/app-navigation/header-navigation";
 import { MobileNavigationHeader } from "@/components/application/app-navigation/base-components/mobile-header"
@@ -59,6 +59,25 @@ function App() {
       </Button>
     </SidebarNavigationSimple>
   )
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      const res = await fetch(`http://127.0.0.1:5000/getcourses`, {
+        method: "GET",
+        credentials: "include"
+      });
+    
+      const data = await res.json()
+
+      if (data.status === "ok") {
+        const courses = data.courses
+        
+        setAllClasses(courses)
+      }
+    }
+    
+    fetchCourses()
+  }, [])
 
   return (
     <div className='flex flex-row'>
