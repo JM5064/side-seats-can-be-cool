@@ -1,6 +1,5 @@
 - high priority:
     - on reload + on switch classes, display messages from database
-    - make camera button do something
     - load classes from database
 
 - low priority:
@@ -8,3 +7,9 @@
     - loading animation for when chatbot is responding
     - fix mobile menu problems
     - expandable/scrollable input field
+    - change title + logo of app
+    - add readme
+
+- done (yippee):
+    - make camera button do something
+
