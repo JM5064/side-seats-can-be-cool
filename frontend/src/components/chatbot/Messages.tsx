@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react'
 import Message from '@/components/chatbot/Message'
 import { type MessageType } from '@/types/MessageType'
 
@@ -6,6 +7,11 @@ type MessagesProps = {
 }
 
 const Messages = ({ messages }: MessagesProps) => {
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages])
 
   return (
     <div className='flex-1 overflow-y-auto'>
@@ -16,6 +22,8 @@ const Messages = ({ messages }: MessagesProps) => {
           </li>
         )}
       </ol>
+
+      <div ref={bottomRef} />
     </div>
   )
 }

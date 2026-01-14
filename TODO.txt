@@ -1,8 +1,6 @@
 - high priority:
-    - load classes from database
 
 - low priority:
-    - make pressing enter send message
     - loading animation for when chatbot is responding
     - fix mobile menu problems
     - expandable/scrollable input field
@@ -10,6 +8,8 @@
     - add readme
 
 - done (yippee):
-    - make camera button do something
     - on reload + on switch classes, display messages from database
+    - load classes from database
+    - make camera button do something
+    - make pressing enter send message
 
