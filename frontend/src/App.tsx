@@ -17,12 +17,12 @@ function App() {
 
   const allClasses = [
     {
-      label: "math",
-      // id: "testClass",
+      title: "math",
+      id: 1,
     },
     {
-      label: "also math",
-      // id: "anotherClass",
+      title: "also math",
+      id: 2,
     },
   ]
 
@@ -39,7 +39,7 @@ function App() {
 
   const sidebarContent = (
     <SidebarNavigationSimple
-      activeItem={currentClass.title}
+      activeItem={currentClass}
       activeItemFunc={setCurrentClass}
       items={allClasses}
     />
@@ -47,6 +47,7 @@ function App() {
 
   return (
     <div className='flex flex-row'>
+
       {/* Desktop sidebar navigation */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:flex">
         {sidebarContent}

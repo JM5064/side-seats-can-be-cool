@@ -22,7 +22,7 @@ const MobileHeaderSidebar = ({ currentClass, currentMode, setModeFunc, classes, 
     )
 
     const trailingContent = (
-        <ThemeToggle mobile={true}/>
+        <ThemeToggle/>
     )
 
     return (

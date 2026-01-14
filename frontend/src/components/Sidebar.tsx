@@ -4,7 +4,7 @@ import type { NavItemType } from "./application/app-navigation/config";
 
 type SidebarProps = {
     currentClass: Course,
-    classes: NavItemType[];
+    classes: Course[];
     setClassFunc: React.Dispatch<React.SetStateAction<Course>>
 }
 

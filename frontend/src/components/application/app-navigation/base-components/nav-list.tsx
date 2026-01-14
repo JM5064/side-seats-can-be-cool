@@ -1,5 +1,4 @@
 import { cx } from "@/utils/cx";
-import type { NavItemDividerType, NavItemType } from "../config";
 import type { Key } from "react-aria-components";
 import { NavItemBase } from "./nav-item";
 import { useState } from "react";
@@ -7,45 +6,40 @@ import type { Course } from "@/types/Course";
 
 interface NavListProps {
     /** Name/index of currently */
-    activeItem: Key;
+    activeItem: Course;
     /** function to call when an item is clicked */
     activeItemFunc: React.Dispatch<React.SetStateAction<Course>>;
     /** List of items to display. */
-    items: (NavItemType | NavItemDividerType)[];
+    items: Course[];
     /** Additional CSS classes to apply to the list. */
     className?: string;
 }
 
 export const NavList = ({ activeItem, activeItemFunc, items, className }: NavListProps) => {
-    const [selectedItem, setSelectedItem] = useState<Key>(activeItem);
+    const [selectedItem, setSelectedItem] = useState<Key>(activeItem.id);
 
     return (
         <ul className={cx("flex flex-col", className)}>
             {items.map((item, index) => {
-                if (item.divider) {
-                    return (
-                        <li key={index} className="w-full px-0.5 py-2">
-                            <hr className="h-px w-full border-none bg-border-secondary" />
-                        </li>   
-                    );
-                }
+                // if (item.divider) {
+                //     return (
+                //         <li key={index} className="w-full px-0.5 py-2">
+                //             <hr className="h-px w-full border-none bg-border-secondary" />
+                //         </li>   
+                //     );
+                // }
 
                 return (
                     <li key={index} className="py-0.5">
                         <NavItemBase
-                            icon={item.icon}
-                            current={selectedItem === item.label}
+                            // icon={item.icon}
+                            current={selectedItem === item.id}
                             onItemClick={(e) => {
-                                setSelectedItem(item.label);
-                                activeItemFunc(item.label)
+                                setSelectedItem(item.id);
+                                activeItemFunc(item)
                             }}
-                            // current={selectedItem === item.id}
-                            // onItemClick={(e) => {
-                            //     setSelectedItem(item.id);
-                            //     activeItemFunc(item.id)
-                            // }}
                         >
-                            {item.label}
+                            {item.title}
                         </NavItemBase>
                     </li>
                 );

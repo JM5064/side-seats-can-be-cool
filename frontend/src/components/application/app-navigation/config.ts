@@ -1,10 +1,11 @@
 import type { FC } from "react";
+import type { Key } from "react-aria-components";
 
 export type NavItemType = {
     /** Label text for the nav item. */
     label: string;
     // /** Unique identifier for item */
-    // id: string;
+    id: Key;
     /** Icon component to display. */
     icon?: FC<{ className?: string }>;
     /** Whether this nav item is a divider. */
