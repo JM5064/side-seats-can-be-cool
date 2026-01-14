@@ -40,7 +40,7 @@ export const HeaderNavigationBase = ({
                 <section
                     className="flex h-16 w-full items-center justify-center bg-primary md:h-18 border-b border-secondary"
                 >
-                    <div className="flex w-full max-w-container gap-8 pr-3 pl-4 md:px-8">
+                    <div className="flex w-full max-w-container gap-4 pr-3 pl-4 md:px-8">
                         <nav className="flex-1">
                             {content}
                         </nav>

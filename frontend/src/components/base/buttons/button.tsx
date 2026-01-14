@@ -251,7 +251,7 @@ export const Button = ({
             )}
 
             {children && (
-                <span data-text className={cx("transition-inherit-all", !noTextPadding && "px-0.5 md:hidden")}>
+                <span data-text className={cx("transition-inherit-all", !noTextPadding && "px-0.5")}>
                     {children}
                 </span>
             )}

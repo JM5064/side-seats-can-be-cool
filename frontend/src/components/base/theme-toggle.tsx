@@ -12,6 +12,6 @@ export function ThemeToggle() {
             size="sm"
             iconLeading={theme === "light" ? Moon01 : Sun}
             onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-        >Theme toggle</Button>
+        />
     );
 }
