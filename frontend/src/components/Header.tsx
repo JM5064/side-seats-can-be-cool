@@ -18,7 +18,7 @@ const Header = ({ currentClass, currentMode, setModeFunc }: HeaderProps) => {
     )
 
     const trailingContent = (
-        <ThemeToggle />
+        <ThemeToggle mobile={false} />
     )
 
     return (

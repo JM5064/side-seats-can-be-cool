@@ -17,7 +17,7 @@ type mobileHeaderProps = {
 export const MobileNavigationHeader = ({ content, children }: PropsWithChildren<mobileHeaderProps>) => {
     return (
         <AriaDialogTrigger>
-            <header className="flex h-16 items-center justify-between border-b border-secondary bg-primary py-3 pr-2 pl-4 lg:hidden">
+            <header className="flex h-16 items-center justify-between border-b border-secondary bg-primary py-3 px-4 lg:hidden">
                 <nav className="flex-1 px-3 md:px-8">
                     {content}
                 </nav>
