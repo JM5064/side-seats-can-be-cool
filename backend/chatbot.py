@@ -26,7 +26,7 @@ async def create_assistant():
     return assistant.assistant_id
 
 
-async def create_txt_file_from_image(imagepath):
+async def image_description(imagepath):
         
     client = genai.Client()
     with open(imagepath, "rb") as f:
@@ -35,40 +35,40 @@ async def create_txt_file_from_image(imagepath):
     interaction = client.interactions.create(
         model="gemini-3-flash-preview",
         input=[
-            {"type": "text", "text": "Describe all text in the image."},
+            {"type": "text", "text": "exctract all text in the image and keep description very brief"},
             {"type": "image", "data": base64_image, "mime_type": "image/png"}
         ]
     )
 
     content = interaction.outputs[-1].text
-    filename = imagepath.rpartition('/')[-1]
-    log("1")
-    log(filename)
-    filename.removesuffix(".jpeg")
-    log("1")
-    log(filename)
-    filename = f'{filename}.txt' 
-    with open(filename, 'w') as f:
-        f.write(content)    
-    docs_dir = os.path.join(os.getcwd(), "documents")
-    full_path = f'{docs_dir}/{filename}'
-    os.rename(filename, full_path)
-    return full_path
+    # content = 'dummy'
+    # filename = imagepath.rpartition('/')[-1]
+    # filename = filename.removesuffix(".jpeg")
+    # filename = f'{filename}.txt' 
+    # with open(filename, 'w') as f:
+    #     f.write(content)    
+    # docs_dir = os.path.join(os.getcwd(), "documents")
+    # full_path = f'{docs_dir}/{filename}'
+    # os.rename(filename, full_path)
+
+    return content
 
     
 
 async def upload_document(assistant_id , imagepath):
-    docpath = await create_txt_file_from_image(imagepath)
+    docpath = await image_description(imagepath)
     client = initialize_client()
+    log(imagepath)
     document = await client.upload_document_to_assistant(
         assistant_id,
         docpath
     )
 
     print("Waiting for document to be indexed...")
-    log(docpath)
+    log(imagepath)
     while True:
         status = await client.get_document_status(document.document_id)
+        log(status)
         if status.status == "indexed":
             print("Document indexed successfully!")
             break
@@ -83,7 +83,6 @@ async def create_thread(assistant_id):
     return thread.thread_id
 
 async def response(msg, thread_id):
-
     client = initialize_client()
     # thread = client.create_thread(assistant_id)
     response = await client.add_message(
@@ -101,9 +100,10 @@ async def response(msg, thread_id):
 async def main():
     ass = await create_assistant()
     the = await create_thread(ass)
-    full_path = os.path.abspath('documents\03107096014f4a4eb4ba32b16d4938b7.txt')
-    await upload_document(ass,full_path)
-    resp = await response(' can you describe what the document says',the)
+    full_path = os.path.abspath('requirements.txt')
+    # await upload_document(ass,full_path)
+    document_content   = await image_description('photos/ex2.JPG')
+    resp = await response(f'can you describe what the document says:{document_content}',the)
     print(resp)
     print('oke')
 
