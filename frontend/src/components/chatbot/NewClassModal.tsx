@@ -61,7 +61,7 @@ const NewClassModal = ({ closeFunc, allClasses, setAllClasses, setCurrentClass }
                             <Button
                                 color="secondary-destructive"
                                 size="lg"
-                                onClick={(e: any) => closeFunc(false)}>
+                                onClick={() => closeFunc(false)}>
                                 Cancel
                             </Button>
                             <Button
