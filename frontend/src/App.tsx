@@ -15,13 +15,8 @@ import NewClassModal from './components/chatbot/NewClassModal';
 import BackendTest from './components/BackendTest';
 
 function App() {
-  const [allClasses, setAllClasses] = useState<Course[]>([
-    {
-      isNull: true,
-      title: "",
-      id: 0
-    }
-  ])
+
+  const [allClasses, setAllClasses] = useState<Course[]>([])
   const [currentMode, setCurrentMode] = useState('chatbot')
   const [currentClass, setCurrentClass] = useState<Course>(allClasses[0])
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -30,11 +25,11 @@ function App() {
   const content = (
     <span className="w-full flex items-center justify-between">
       <span className="prose">
-        {currentClass.isNull ?
-          <p>Welcome, please add a class</p> :
-          <h1>{currentClass.title}</h1>}
+        {currentClass ?
+          <h1>{currentClass.title}</h1> :
+          <p>Welcome, please add a class</p>}
       </span>
-      {!currentClass.isNull && <Toggle mode={currentMode} setModeFunc={setCurrentMode} />}
+      {currentClass && <Toggle mode={currentMode} setModeFunc={setCurrentMode} />}
     </span>
   )
 
@@ -44,8 +39,8 @@ function App() {
 
   const sidebarContent = (
     <SidebarNavigationSimple>
-      <NavList activeItem={currentClass} items={allClasses}
-        activeItemFunc={setCurrentClass} />
+      {currentClass && <NavList activeItem={currentClass} items={allClasses}
+        activeItemFunc={setCurrentClass} />}
       <Button
         onClick={() => { setShowModal(true) }}
         iconLeading={Plus}
@@ -115,7 +110,7 @@ function App() {
           </aside>
         </MobileNavigationHeader>
 
-        {!currentClass.isNull && (currentMode === 'video' ?
+        {currentClass && (currentMode === 'video' ?
           <Video currentClass={currentClass} /> :
           <Chatbot currentClass={currentClass} />)}
       </div>

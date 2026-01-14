@@ -7,4 +7,5 @@ Flask-SQLAlchemy==3.1.1
 Flask-WTF==1.2.2
 requests==2.32.5
 backboard-sdk==1.4.7
-google-genai
+google-genai==1.57.0
+openai==2.15.0
