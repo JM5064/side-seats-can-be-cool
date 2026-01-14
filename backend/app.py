@@ -20,16 +20,15 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db.init_app(app)
 async def initialize_database():
     with app.app_context():
-        try:
-            os.remove("instance/site.db")
-            db.create_all()
+        db.create_all() 
+        course = Course.query.first()
+        if course is None:
             new_course_assistant = await create_assistant()
             Initial_chat = Course(course_name ='hello' , course_chat_id = new_course_assistant , course_thread_id = await create_thread(new_course_assistant))
             db.session.add(Initial_chat)
-            db.session.commit()
+            db.session.commit()   
 
-        except:
-            db.create_all()
+
 
 @app.route("/")
 @app.route("/home")

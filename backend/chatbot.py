@@ -41,9 +41,12 @@ async def create_txt_file_from_image(imagepath):
     )
 
     content = interaction.outputs[-1].text
-
     filename = imagepath.rpartition('/')[-1]
+    log("1")
+    log(filename)
     filename.removesuffix(".jpeg")
+    log("1")
+    log(filename)
     filename = f'{filename}.txt' 
     with open(filename, 'w') as f:
         f.write(content)    
@@ -98,9 +101,9 @@ async def response(msg, thread_id):
 async def main():
     ass = await create_assistant()
     the = await create_thread(ass)
-    # full_path = os.path.abspath('photos/9c604f02f955432689970dd441b0db7a.jpeg')
-    # await upload_document(ass,full_path)
-    resp = await response(' what is your name',the)
+    full_path = os.path.abspath('documents\03107096014f4a4eb4ba32b16d4938b7.txt')
+    await upload_document(ass,full_path)
+    resp = await response(' can you describe what the document says',the)
     print(resp)
     print('oke')
 
