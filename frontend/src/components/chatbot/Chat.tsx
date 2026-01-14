@@ -21,8 +21,7 @@ const Chat = ({ currentClass, messages, setMessages }: ChatProps) => {
         // Send request to backend
         const formData = new FormData();
         formData.append("msg", input)
-    
-        const res = await fetch("http://127.0.0.1:5000/coursechat/1", {
+        const res = await fetch(`http://127.0.0.1:5000/coursechat/${currentClass.id}`, {
             method: "POST",
             body: formData,
             credentials: "include"
