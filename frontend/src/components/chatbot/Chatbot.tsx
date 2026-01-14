@@ -12,6 +12,7 @@ interface ChatbotProps {
 const Chatbot = ({ currentClass }: ChatbotProps) => {
 
   const [messages, setMessages] = useState<MessageType[]>([])
+  const [responding, setResponding] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -44,8 +45,8 @@ const Chatbot = ({ currentClass }: ChatbotProps) => {
 
   return (
     <>
-        <Messages messages={messages} />
-        <Chat currentClass={currentClass} messages={messages} setMessages={setMessages} />
+        <Messages messages={messages} responding={responding} />
+        <Chat currentClass={currentClass} messages={messages} setMessages={setMessages}  setResponding={setResponding}/>
     </>
   )
 }

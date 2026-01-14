@@ -1,15 +1,16 @@
 - high priority:
 
 - low priority:
-    - loading animation for when chatbot is responding
     - fix mobile menu problems
     - expandable/scrollable input field
     - change title + logo of app
     - add readme
+    - make pressing enter create the new course
 
 - done (yippee):
     - on reload + on switch classes, display messages from database
     - load classes from database
     - make camera button do something
     - make pressing enter send message
+    - loading animation for when chatbot is responding
 

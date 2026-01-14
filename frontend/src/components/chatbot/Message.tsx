@@ -6,12 +6,10 @@ type MessageProps = {
 }
 
 const Message = ({ message }: MessageProps) => {
-
-  // Add tailwind css to this to make it a nice Message component (like the chatgpt messages): <div className='primary w-1/2' >
   return (
       <article className='flex min-w-0 flex-1 flex-col gap-1.5'>
         <div
-          className={cx("relative rounded-lg py-2 text-md text-primary ring-1 ring-secondary ring-inset py-4 px-6 lg:w-3/5 sm:w-4/5",
+          className={cx("relative rounded-lg text-md text-primary ring-1 ring-secondary ring-inset py-4 px-6 lg:w-3/5 sm:w-4/5",
             message.messageFrom === 'user' ?
               "rounded-tr-none bg-primary self-end"
               :
