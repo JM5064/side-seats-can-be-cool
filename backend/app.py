@@ -39,11 +39,11 @@ def homepage():
 
 
 @app.route("/createclass", methods=["GET", "POST"])
-async def create_class(): # to create a new chat bot thread
+def create_class(): # to create a new chat bot thread
     form = CreateForm()
     if form.validate_on_submit():
-        new_course_assistant = await create_assistant()
-        new_course = Course(course_name = form.title.data, course_chat_id = new_course_assistant , course_thread_id = await create_thread(new_course_assistant))
+        new_course_assistant = asyncio.run(create_assistant())
+        new_course = Course(course_name = form.title.data, course_chat_id = new_course_assistant , course_thread_id = asyncio.run(create_thread(new_course_assistant)))
         
         db.session.add(new_course)
         db.session.commit()
@@ -54,13 +54,13 @@ async def create_class(): # to create a new chat bot thread
 
 
 @app.route("/coursechat/<int:course_id>", methods=["GET","POST"])
-async def coursechat(course_id):
+def coursechat(course_id):
     form = ChatForm()
     course = Course.query.filter_by(id = course_id).first()
 
     if form.validate_on_submit():
         msg = form.msg.data
-        answer = await response(msg, course.course_thread_id)
+        answer = asyncio.run(response(msg, course.course_thread_id))
         new_msg = UserHistory(chatbot_msg = msg, course_id = course_id)
         new_answer = ChatbotHistory(chatbot_msg = answer, course_id = course_id)
         db.session.add(new_msg)
@@ -73,7 +73,7 @@ async def coursechat(course_id):
 
 
 @app.route("/getchat/<int:course_id>", methods=["GET"])
-async def get_chats(course_id):
+def get_chats(course_id):
     course = Course.query.filter_by(id = course_id).first()
     user_chats = UserHistory.query.filter_by(course_id = course.id).order_by(UserHistory.time_asked.asc())
     chatbot_chats = ChatbotHistory.query.filter_by(course_id = course.id).order_by(ChatbotHistory.time_asked.asc())
@@ -84,7 +84,7 @@ async def get_chats(course_id):
     return {"status": "ok", "user_chats": user_chats_list, "chatbot_chats": chatbot_chats_list}, 201
 
 @app.route("/getcourses", methods=["GET"])
-async def get_courses():
+def get_courses():
     courses = Course.query
     
     courses_list = [{ "title": course.course_name, "id": course.id } for course in courses]
@@ -94,7 +94,7 @@ async def get_courses():
 
 
 @app.route('/upload/<int:course_id>', methods=['GET', 'POST'])
-async def upload(course_id):
+def upload(course_id):
     form = PhotoForm()
     if form.validate_on_submit():
         image_data = form.photo.data
@@ -110,15 +110,15 @@ async def upload(course_id):
         db.session.commit()
         course = Course.query.filter_by(id = course_id).first()
         assistant_id = course.course_chat_id
-        await upload_document(assistant_id , full_path )
-        answer = await response("Analyze the document provided to you", course.course_thread_id)
+        asyncio.run(upload_document(assistant_id , full_path ))
+        answer = asyncio.run(response("Analyze the document provided to you", course.course_thread_id))
         log(answer)
         return {"status": "ok"}, 201
     
     return {"status": "error", "errors": form.errors}, 400
 
 
-initialize_database()
-# if __name__ == "__main__":
-    # initialize_database()
-    # app.run(debug=True)
+# initialize_database()
+if __name__ == "__main__":
+    initialize_database()
+    app.run(debug=True)
