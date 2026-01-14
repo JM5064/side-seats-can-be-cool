@@ -4,6 +4,7 @@ import time
 from backboard import BackboardClient
 import asyncio
 import os
+from log import log
 
 load_dotenv()
 
@@ -53,10 +54,10 @@ async def response(msg, thread_id):
 
 
 async def main():
+    print(API_KEY)
     ass = await create_assistant()
     the = await create_thread(ass)
-    resp = await response('hello',the)
-    print(resp)
+    resp = await response('what is writen in this requirement file',the)
     resp = await response('hello again',the)
     print(resp)
 
