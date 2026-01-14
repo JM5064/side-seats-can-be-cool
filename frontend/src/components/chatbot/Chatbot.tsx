@@ -2,7 +2,7 @@ import Chat from '@/components/chatbot/Chat'
 import Messages from '@/components/chatbot/Messages'
 import type { Course } from '@/types/Course'
 import { type MessageType } from '@/types/MessageType'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface ChatbotProps {
   currentClass: Course
@@ -11,25 +11,36 @@ interface ChatbotProps {
 
 const Chatbot = ({ currentClass }: ChatbotProps) => {
 
-  // const testMessages = [
-  //   {
-  //     text: "User text e and our 685 technology partners ask you to consent to the use of cookies to store and access personal data on your device. This can include the use of unique identifiers and information about your browsing patterns to create the best ",
-  //     messageFrom: "user"
-  //   },
-  //   {
-  //     text: "Chatbot text e and our 685 technology partners ask you to consent to the use of cookies to store and access personal data on your device. This can include the use of unique identifiers",
-  //     messageFrom: "chatbot"
-  //   },
-  //   {
-  //     text: "User text e and our 685 technology partners ask you to consent to the use of cookies to store and access personal data on your device. This can include the use of unique identifiers and information about your browsing patterns to create the best ",
-  //     messageFrom: "user"
-  //   },
-  //   {
-  //     text: "Chatbot text e and our 685 technology partners ask you to consent to the use of cookies to store and access personal data on your device. This can include the use of unique identifiers. Chatbot text e and our 685 technology partners ask you to consent to the use of cookies to store Chatbot text e and our 685 technology partners ask you to consent to the use of cookies to store and access personal data on your device. This can include the use of unique identifiers. Chatbot text e and our 685 technology partners ask you to consent to the use of cookies to storeChatbot text e and our 685 technology partners ask you to consent to the use of cookies to store and access personal data on your device. This can include the use of unique identifiers. Chatbot text e and our 685 technology partners ask you to consent to the use of cookies to storeChatbot text e and our 685 technology partners ask you to consent to the use of cookies to store and access personal data on your device. This can include the use of unique identifiers. Chatbot text e and our 685 technology partners ask you to consent to the use of cookies to storeChatbot text e and our 685 technology partners ask you to consent to the use of cookies to store and access personal data on your device. This can include the use of unique identifiers. Chatbot text e and our 685 technology partners ask you to consent to the use of cookies to storeChatbot text e and our 685 technology partners ask you to consent to the use of cookies to store and access personal data on your device. This can include the use of unique identifiers. Chatbot text e and our 685 technology partners ask you to consent to the use of cookies to storeChatbot text e and our 685 technology partners ask you to consent to the use of cookies to store and access personal data on your device. This can include the use of unique identifiers. Chatbot text e and our 685 technology partners ask you to consent to the use of cookies to storeChatbot text e and our 685 technology partners ask you to consent to the use of cookies to store and access personal data on your device. This can include the use of unique identifiers. Chatbot text e and our 685 technology partners ask you to consent to the use of cookies to store",
-  //     messageFrom: "chatbot"
-  //   },
-  // ]
   const [messages, setMessages] = useState<MessageType[]>([])
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      const res = await fetch(`http://127.0.0.1:5000/getchat/${currentClass.id}`, {
+        method: "GET",
+        credentials: "include"
+      });
+    
+      const data = await res.json()
+
+      console.log("Data received!", data)
+      if (data.status === "ok") {
+        const userChats = data.user_chats
+        const chatbotChats = data.chatbot_chats
+
+        const newMessages: MessageType[] = []
+
+        for (let i = 0; i < userChats.length; i++) {
+          newMessages.push({ text: userChats[i], messageFrom: "user" })
+          newMessages.push({ text: chatbotChats[i], messageFrom: "chatbot" })
+        }
+
+        setMessages(newMessages)
+      }
+      
+    }
+    
+    fetchMessages()
+  }, [currentClass])
 
   return (
     <>

@@ -63,10 +63,9 @@ async def main():
     print(API_KEY)
     ass = await create_assistant()
     the = await create_thread(ass)
-    full_path = os.path.abspath('requirements.txt')
+    full_path = os.path.abspath('backend/photos/1e7cda1a9140476d992fbe352203bb29.jpeg')
     await upload_document(ass,full_path)
-    resp = await response('what is writen in this file',the)
-    resp = await response('hello again',the)
+    resp = await response('how many people are in the file',the)
     print(resp)
 
 

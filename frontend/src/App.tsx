@@ -12,6 +12,7 @@ import { Button } from "@/components/base/buttons/button";
 import { Plus } from "@untitledui/icons";
 import '@/App.css'
 import NewClassModal from './components/chatbot/NewClassModal';
+import BackendTest from './components/BackendTest';
 
 function App() {
   // const allClasses = [

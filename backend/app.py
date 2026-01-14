@@ -63,8 +63,20 @@ async def coursechat(course_id):
     return {"status": "error", "errors": form.errors}, 400
 
 
+@app.route("/getchat/<int:course_id>", methods=["GET"])
+async def get_chats(course_id):
+    course = Course.query.filter_by(id = course_id).first()
+    user_chats = UserHistory.query.filter_by(course_id = course.id).order_by(UserHistory.time_asked.asc())
+    chatbot_chats = ChatbotHistory.query.filter_by(course_id = course.id).order_by(ChatbotHistory.time_asked.asc())
+    
+    user_chats_list = [chat.chatbot_msg for chat in user_chats]
+    chatbot_chats_list = [chat.chatbot_msg for chat in chatbot_chats]
+
+    return {"status": "ok", "user_chats": user_chats_list, "chatbot_chats": chatbot_chats_list}, 201
+
+
 @app.route('/upload/<int:course_id>', methods=['GET', 'POST'])
-def upload(course_id):
+async def upload(course_id):
     form = PhotoForm()
     if form.validate_on_submit():
         image_data = form.photo.data
@@ -72,21 +84,20 @@ def upload(course_id):
         image_data.save(filename)
 
         photos_dir = os.path.join(os.getcwd(), "backend/photos")
-        os.rename(filename, f'{photos_dir}/{filename}')
-        full_path = os.path.abspath(filename)
-
+        full_path = f'{photos_dir}/{filename}'
+        os.rename(filename, full_path)
+        
         image = Images(Images_path = full_path, course_id = course_id)
         db.session.add(image)
         db.session.commit()
         course = Course.query.filter_by(id = course_id).first()
         assistant_id = course.course_chat_id
-        upload_document(assistant_id , full_path )
-    
+        await upload_document(assistant_id , full_path )
+        answer = await response("Analyze the document provided to you", course.course_thread_id)
+        log(answer)
         return {"status": "ok"}, 201
     
     return {"status": "error", "errors": form.errors}, 400
-
-
 
 
 
