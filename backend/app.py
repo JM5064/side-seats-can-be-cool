@@ -69,13 +69,16 @@ def upload(course_id):
     if form.validate_on_submit():
         image_data = form.photo.data
         filename = f'{uuid.uuid4().hex}.jpeg'
-        with open(filename, "wb") as f:
-            f.write(image_data)
+        image_data.save(filename)
+
+        photos_dir = os.path.join(os.getcwd(), "backend/photos")
+        os.rename(filename, f'{photos_dir}/{filename}')
         full_path = os.path.abspath(filename)
-        image = Images(Images_paths = full_path , course_id = course_id)
+
+        image = Images(Images_path = full_path, course_id = course_id)
         db.session.add(image)
         db.session.commit()
-        course = Course.query.filter_by(course_id = course_id)
+        course = Course.query.filter_by(id = course_id).first()
         assistant_id = course.course_chat_id
         upload_document(assistant_id , full_path )
     

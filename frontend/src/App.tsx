@@ -100,7 +100,7 @@ function App() {
         </MobileNavigationHeader>
 
         {currentMode === 'video' ?
-          <Video /> :
+          <Video currentClass={currentClass} /> :
           <Chatbot currentClass={currentClass} />
         }
       </div>
