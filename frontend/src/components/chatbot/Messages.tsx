@@ -1,12 +1,14 @@
 import { useRef, useEffect } from 'react'
 import Message from '@/components/chatbot/Message'
 import { type MessageType } from '@/types/MessageType'
+import { LoadingMessage } from '@/components/chatbot/LoadingMessage'
 
 type MessagesProps = {
   messages: MessageType[]
+  responding: boolean
 }
 
-const Messages = ({ messages }: MessagesProps) => {
+const Messages = ({ messages, responding }: MessagesProps) => {
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -21,6 +23,7 @@ const Messages = ({ messages }: MessagesProps) => {
             <Message message={message} />
           </li>
         )}
+        {responding && <LoadingMessage />}
       </ol>
 
       <div ref={bottomRef} />

@@ -21,18 +21,18 @@ export const NavList = ({ activeItem, activeItemFunc, items, className }: NavLis
     return (
         <ul className={cx("flex flex-col", className)}>
             {items.map((item, index) => {
-                if (item.isNull) {
-                    return (
-                        <></>
-                    );
-                }
+                // if (item.isNull) {
+                //     return (
+                //         <></>
+                //     );
+                // }
 
                 return (
                     <li key={index} className="py-0.5">
                         <NavItemBase
                             // icon={item.icon}
                             current={selectedItem === item.id}
-                            onItemClick={(e) => {
+                            onItemClick={() => {
                                 setSelectedItem(item.id);
                                 activeItemFunc(item)
                             }}

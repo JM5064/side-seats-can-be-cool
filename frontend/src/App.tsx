@@ -12,7 +12,6 @@ import { Button } from "@/components/base/buttons/button";
 import { Plus } from "@untitledui/icons";
 import '@/App.css'
 import NewClassModal from './components/chatbot/NewClassModal';
-import BackendTest from './components/BackendTest';
 
 function App() {
 
@@ -20,7 +19,6 @@ function App() {
   const [currentMode, setCurrentMode] = useState('chatbot')
   const [currentClass, setCurrentClass] = useState<Course>(allClasses[0])
   const [showModal, setShowModal] = useState<boolean>(false)
-
 
   const content = (
     <span className="w-full flex items-center justify-between">
@@ -64,6 +62,10 @@ function App() {
         const courses = data.courses
         
         setAllClasses(courses)
+
+        if (courses.length > 0) {
+          setCurrentClass(courses[0])
+        } 
       }
     }
     
@@ -115,7 +117,6 @@ function App() {
           <Chatbot currentClass={currentClass} />)}
       </div>
 
-      {/* <BackendTest /> */}
     </div>
   )
 }

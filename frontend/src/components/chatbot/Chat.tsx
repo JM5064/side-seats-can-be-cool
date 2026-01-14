@@ -8,11 +8,12 @@ interface ChatProps {
     currentClass: Course
     messages: MessageType[]
     setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>
+    setResponding: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Chat = ({ currentClass, messages, setMessages }: ChatProps) => {
+const Chat = ({ currentClass, messages, setMessages, setResponding }: ChatProps) => {
     const [input, setInput] = useState("")
-
+ 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
 
@@ -23,6 +24,8 @@ const Chat = ({ currentClass, messages, setMessages }: ChatProps) => {
         const userMessages = [...messages, { text: input, messageFrom: "user" }]
         setMessages(userMessages)
         setInput("")
+        
+        setResponding(true)
 
         // Send request to backend
         const formData = new FormData();
@@ -38,6 +41,7 @@ const Chat = ({ currentClass, messages, setMessages }: ChatProps) => {
         console.log("Data received!", data)
         
         const chatbotMessages = [...userMessages, { text: data.response, messageFrom: "chatbot" }]
+        setResponding(false)
         setMessages(chatbotMessages)
     }
 
