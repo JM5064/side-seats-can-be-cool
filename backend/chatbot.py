@@ -5,7 +5,6 @@ from backboard import BackboardClient
 import asyncio
 import os
 from log import log
-from openai import OpenAI
 import base64
 from google import genai
 
@@ -87,6 +86,8 @@ async def response(msg, thread_id):
         thread_id=thread_id,
         content=msg,
         memory="Auto",
+        llm_provider="google",
+        model_name="gemini-2.5-flash",
         stream=False
     )
 
@@ -94,12 +95,12 @@ async def response(msg, thread_id):
 
 
 async def main():
-    # ass = await create_assistant()
-    # the = await create_thread(ass)
+    ass = await create_assistant()
+    the = await create_thread(ass)
     # full_path = os.path.abspath('photos/9c604f02f955432689970dd441b0db7a.jpeg')
     # await upload_document(ass,full_path)
-    # resp = await response('how many people are in the file',the)
-    # print(resp)
+    resp = await response(' what is your name',the)
+    print(resp)
     print('oke')
 
 

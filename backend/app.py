@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from log import log
 import os
 import uuid
+import asyncio
 
 load_dotenv
 
@@ -17,9 +18,19 @@ app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
 db.init_app(app)
+async def initialize_database():
+    with app.app_context():
+        try:
+            os.remove("instance/site.db")
+            db.create_all()
+            new_course_assistant = await create_assistant()
+            Initial_chat = Course(course_name ='hello' , course_chat_id = new_course_assistant , course_thread_id = await create_thread(new_course_assistant))
+            db.session.add(Initial_chat)
+            db.session.commit()
+            log("oke")
 
-with app.app_context():
-    db.create_all()
+        except:
+            db.create_all()
 
 @app.route("/")
 @app.route("/home")
@@ -92,7 +103,7 @@ async def upload(course_id):
         filename = f'{uuid.uuid4().hex}.jpeg'
         image_data.save(filename)
 
-        photos_dir = os.path.join(os.getcwd(), "backend/photos")
+        photos_dir = os.path.join(os.getcwd(), "photos")
         full_path = f'{photos_dir}/{filename}'
         os.rename(filename, full_path)
         
@@ -111,4 +122,5 @@ async def upload(course_id):
 
 
 if __name__ == "__main__":
+    asyncio.run(initialize_database())
     app.run(debug=True)
