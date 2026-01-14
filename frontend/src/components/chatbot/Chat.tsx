@@ -14,6 +14,10 @@ const Chat = ({ currentClass, messages, setMessages }: ChatProps) => {
     const [input, setInput] = useState("")
 
     const handleClick = async () => {
+        if (input.length === 0 || input.length > 1000) {
+            return
+        }
+
         const userMessages = [...messages, { text: input, messageFrom: "user" }]
         setMessages(userMessages)
         setInput("")
@@ -45,7 +49,7 @@ const Chat = ({ currentClass, messages, setMessages }: ChatProps) => {
             {/* <TextArea isRequired placeholder='Ask a question...' rows={3} /> */}
             <form className='flex h-24 items-center gap-4 p-8'>
                 <input 
-                    value={input}
+                    value={input} autoComplete='off'
                     type="text" id="guess-input" placeholder="Ask a question..." onInput={handleInput}
                     className="w-full scroll-py-3 rounded-lg bg-primary px-3.5 py-3 text-md text-primary shadow-xs ring-1 ring-primary transition duration-100 ease-linear ring-inset placeholder:text-placeholder autofill:rounded-lg autofill:text-primary focus:outline-hidden"
                 />
