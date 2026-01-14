@@ -39,7 +39,7 @@ const BoardSelector = ({ videoWidth, videoHeight, onConfirm }: BoardSelectorProp
 
     // Draw circle at point
     ctx.beginPath()
-    ctx.arc(x, y, 5, 0, 2 * Math.PI)
+    ctx.arc(x, y, 15, 0, 2 * Math.PI)
     ctx.fill()
   }
 
@@ -73,13 +73,6 @@ const BoardSelector = ({ videoWidth, videoHeight, onConfirm }: BoardSelectorProp
     return [top[0], top[1], bottom[1], bottom[0]]
   }
 
-  const handleConfirm = () => {
-    console.log("Handle confirm called", points)
-    if (points.length == 4) {
-      onConfirm(points)
-    }
-  }
-
   useEffect(() => {
     const drawingCanvas = drawingCanvasRef.current
     if (drawingCanvas && videoWidth && videoHeight) {
@@ -100,14 +93,6 @@ const BoardSelector = ({ videoWidth, videoHeight, onConfirm }: BoardSelectorProp
         ref={eventOverlayRef}
         onClick={handleMouseClick}
       />
-
-      {/* <button
-        className='absolute px-4 py-1 bg-blue-600 text-white rounded'
-        onClick={handleConfirm}
-      >
-        Confirm
-      </button> */}
-
     </div>
   )
 }
