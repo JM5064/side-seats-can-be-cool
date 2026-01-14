@@ -2,31 +2,37 @@ import { Send01 } from '@untitledui/icons';
 import { Button } from "@/components/base/buttons/button";
 import { useState } from 'react';
 import type { Course } from '@/types/Course';
+import type { MessageType } from '@/types/MessageType';
 
 interface ChatProps {
     currentClass: Course
+    messages: MessageType[]
+    setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>
 }
 
-const Chat = ({ currentClass }: ChatProps) => {
+const Chat = ({ currentClass, messages, setMessages }: ChatProps) => {
     const [input, setInput] = useState("")
 
     const handleClick = async () => {
-        console.log("Button pressed! Attemping to send to backend")
+        const userMessages = [...messages, { text: input, messageFrom: "user" }]
+        setMessages(userMessages)
+        setInput("")
 
         // Send request to backend
         const formData = new FormData();
         formData.append("msg", input)
-    
-        const res = await fetch("http://127.0.0.1:5000/coursechat/1", {
+        const res = await fetch(`http://127.0.0.1:5000/coursechat/${currentClass.id}`, {
             method: "POST",
             body: formData,
             credentials: "include"
         });
-    
-        const data = await res.json();
-        console.log("Data received!", data)
 
-        setInput("")
+        const data = await res.json();
+        
+        console.log("Data received!", data)
+        
+        const chatbotMessages = [...userMessages, { text: data.response, messageFrom: "chatbot" }]
+        setMessages(chatbotMessages)
     }
 
     const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
