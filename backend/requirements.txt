@@ -5,3 +5,4 @@ flask_sqlalchemy
 flask_wtf
 requests
 backboard-sdk
+google-genai
