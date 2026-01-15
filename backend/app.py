@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, redirect
 from models import db, Course, Images, ChatbotHistory, UserHistory, CreateForm, ChatForm , PhotoForm
-from chatbot import create_assistant, response , upload_document , create_thread
+from chatbot import create_assistant, response , upload_document , create_thread , image_description
 from flask_cors import CORS
 from dotenv import load_dotenv
 from log import log
@@ -104,14 +104,12 @@ async def upload(course_id):
         photos_dir = os.path.join(os.getcwd(), "photos")
         full_path = f'{photos_dir}/{filename}'
         os.rename(filename, full_path)
-        
         image = Images(Images_path = full_path, course_id = course_id)
         db.session.add(image)
         db.session.commit()
         course = Course.query.filter_by(id = course_id).first()
-        assistant_id = course.course_chat_id
-        await upload_document(assistant_id , full_path )
-        answer = await response("Analyze the document provided to you", course.course_thread_id)
+        image_content  = await image_description(full_path)
+        answer = await response(f"Analyze the following image content:{image_content}", course.course_thread_id)
         log(answer)
         return {"status": "ok"}, 201
     

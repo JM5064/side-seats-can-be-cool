@@ -8,7 +8,7 @@ interface CaptureButtonProps {
 const CaptureButton = ({ handleClick }: CaptureButtonProps) => {
   
   return (
-    <Button color="secondary" onClick={handleClick} size="xl" iconLeading={Camera01} aria-label="Capture photo" />
+    <Button className="transition duration-150 ease-in-out active:opacity-70" color="secondary" onClick={handleClick} size="xl" iconLeading={Camera01} aria-label="Capture photo" />
   )
 }
 
