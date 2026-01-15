@@ -1,9 +1,10 @@
 import type { SVGProps } from "react";
 import { useId } from "react";
-import { cx } from "@/utils/cx";
 
 export const Logo = (props: SVGProps<SVGSVGElement>) => {
+  () => props
   const id = useId();
+  () => id + 1
 
   return (
     <h1 className="w-fit flex flex-row gap-5 items-center">
