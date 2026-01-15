@@ -21,7 +21,7 @@ async def create_assistant():
     client = initialize_client()
     assistant = await client.create_assistant(
         name="Assistant",
-        description="An assistant that can analyze documents"
+        description="An assistant that can analyze text in images"
     )
     return assistant.assistant_id
 
@@ -35,7 +35,7 @@ async def image_description(imagepath):
     interaction = client.interactions.create(
         model="gemini-3-flash-preview",
         input=[
-            {"type": "text", "text": "exctract all text in the image and keep description very brief"},
+            {"type": "text", "text": "exctract all text in the image and keep the description as brief as possible"},
             {"type": "image", "data": base64_image, "mime_type": "image/png"}
         ]
     )
@@ -56,12 +56,12 @@ async def image_description(imagepath):
     
 
 async def upload_document(assistant_id , imagepath):
-    docpath = await image_description(imagepath)
+    # docpath = await image_description(imagepath)
     client = initialize_client()
-    log(imagepath)
+    # log(imagepath)
     document = await client.upload_document_to_assistant(
         assistant_id,
-        docpath
+        imagepath
     )
 
     print("Waiting for document to be indexed...")
@@ -101,9 +101,8 @@ async def main():
     ass = await create_assistant()
     the = await create_thread(ass)
     full_path = os.path.abspath('requirements.txt')
-    # await upload_document(ass,full_path)
-    document_content   = await image_description('photos/ex2.JPG')
-    resp = await response(f'can you describe what the document says:{document_content}',the)
+    #await upload_document(ass,full_path)
+    resp = await response(f'can you describe what the document says in one line',the)
     print(resp)
     print('oke')
 

@@ -24,7 +24,7 @@ async def initialize_database():
         course = Course.query.first()
         if course is None:
             new_course_assistant = await create_assistant()
-            Initial_chat = Course(course_name ='hello' , course_chat_id = new_course_assistant , course_thread_id = await create_thread(new_course_assistant))
+            Initial_chat = Course(course_name ='My assistant' , course_chat_id = new_course_assistant , course_thread_id = await create_thread(new_course_assistant))
             db.session.add(Initial_chat)
             db.session.commit()   
 
@@ -109,7 +109,7 @@ async def upload(course_id):
         db.session.commit()
         course = Course.query.filter_by(id = course_id).first()
         image_content  = await image_description(full_path)
-        answer = await response(f"Analyze the following image content:{image_content}", course.course_thread_id)
+        answer = await response(f"the following text is a description of an image keep it in your memory:{image_content}", course.course_thread_id)
         log(answer)
         return {"status": "ok"}, 201
     
