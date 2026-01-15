@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, redirect
 from models import db, Course, Images, ChatbotHistory, UserHistory, CreateForm, ChatForm , PhotoForm
-from chatbot import create_assistant, response , upload_document , create_thread
+from chatbot import create_assistant, response , upload_document , create_thread , image_description
 from flask_cors import CORS
 from dotenv import load_dotenv
 from log import log
@@ -24,7 +24,7 @@ def initialize_database():
         course = Course.query.first()
         if course is None:
             new_course_assistant = asyncio.run(create_assistant())
-            Initial_chat = Course(course_name ='hello' , course_chat_id = new_course_assistant , course_thread_id = asyncio.run(create_thread(new_course_assistant)))
+            Initial_chat = Course(course_name ='My assistant' , course_chat_id = new_course_assistant , course_thread_id = asyncio.run(create_thread(new_course_assistant)))
             db.session.add(Initial_chat)
             db.session.commit()   
 
@@ -104,14 +104,12 @@ def upload(course_id):
         photos_dir = os.path.join(os.getcwd(), "photos")
         full_path = f'{photos_dir}/{filename}'
         os.rename(filename, full_path)
-        
         image = Images(Images_path = full_path, course_id = course_id)
         db.session.add(image)
         db.session.commit()
         course = Course.query.filter_by(id = course_id).first()
-        assistant_id = course.course_chat_id
-        asyncio.run(upload_document(assistant_id , full_path ))
-        answer = asyncio.run(response("Analyze the document provided to you", course.course_thread_id))
+        image_content  = asyncio.run(image_description(full_path))
+        answer = asyncio.run(response(f"the following text is a description of an image keep it in your memory:{image_content}", course.course_thread_id))
         log(answer)
         return {"status": "ok"}, 201
     

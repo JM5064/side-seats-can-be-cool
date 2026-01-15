@@ -13,6 +13,7 @@ const Video = ({ currentClass }: VideoProps) => {
 
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const captureOverlayRef = useRef<HTMLCanvasElement>(null)
 
   const [videoWidth, setVideoWidth] = useState(0)
   const [videoHeight, setVideoHeight] = useState(0)
@@ -186,6 +187,21 @@ const Video = ({ currentClass }: VideoProps) => {
       return
     }
 
+    // Flash the screen when button clicked
+    const ctx = captureOverlayRef.current?.getContext('2d')
+    if (ctx) {
+      ctx.fillStyle = 'rgba(0, 0, 0, 1)'
+      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+      for (let i = 0; i <= 100; i+=10) {
+        setTimeout(() => {
+          ctx.fillStyle = `rgba(0, 0, 0, ${1-i/100})`
+          ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+          ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+        }, i)
+      }
+    }
+
+
     // Turn canvas into blob to send to backend
     canvas.toBlob(async (blob) => {
       if (!blob) {
@@ -211,6 +227,7 @@ const Video = ({ currentClass }: VideoProps) => {
       <div className="relative w-fit h-fit">
         <video ref={videoRef} autoPlay playsInline muted className="block max-h-screen max-w-full" />
         <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+        <canvas ref={captureOverlayRef} className="absolute inset-0 w-full h-full" />
         <BoardSelector 
           videoWidth={videoWidth} 
           videoHeight={videoHeight} 

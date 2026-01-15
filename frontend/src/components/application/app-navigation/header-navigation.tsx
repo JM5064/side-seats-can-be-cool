@@ -20,22 +20,6 @@ export const HeaderNavigationBase = ({
 }: HeaderNavigationBaseProps) => {
     return (
         <>
-            {/* <MobileNavigationHeader content={content}>
-                <aside className="flex h-full w-full flex-col justify-between overflow-auto border-r border-secondary bg-primary pt-4 lg:pt-6">
-                    <div className="flex flex-col gap-5 px-4 lg:px-5">
-                        <h1>mobileheader in header</h1>
-                        {trailingContent}
-                    </div>
-
-                    <div className="mt-auto flex flex-col gap-4 px-2 py-4 lg:px-4 lg:py-6">
-                        <div className="flex flex-col gap-1">
-                        </div>
-
-                        <NavAccountCard />
-                    </div>
-                </aside>
-            </MobileNavigationHeader> */}
-
             <header className="max-lg:hidden">
                 <section
                     className="flex h-16 w-full items-center justify-center bg-primary md:h-18 border-b border-secondary"
