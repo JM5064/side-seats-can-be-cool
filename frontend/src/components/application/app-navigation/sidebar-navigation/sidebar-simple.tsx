@@ -1,5 +1,6 @@
 import { cx } from "@/utils/cx";
 import type { PropsWithChildren } from "react";
+import {Logo} from "@/components/foundations/logo/sscbc-logo"
 
 interface SidebarNavigationProps {
     /** Name/index of currently active item*/
@@ -27,14 +28,13 @@ export const SidebarNavigationSimple = ({ children, className }: PropsWithChildr
                 className,
             )}
         >
-            <div className="flex flex-col gap-5 px-4 lg:px-6 prose">
-                <h1>Side seats can be cool</h1>
+            <div className="px-4 lg:px-6 prose">
+                <Logo />
             </div>
 
             <div className="mb-auto flex flex-col gap-4 px-2 py-4 lg:px-4 lg:py-6">
                 {children}
             </div>
-
         </aside>
     );
 };

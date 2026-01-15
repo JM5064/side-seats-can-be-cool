@@ -24,7 +24,7 @@ function App() {
     <span className="w-full flex items-center justify-between">
       <span className="prose">
         {currentClass ?
-          <h1>{currentClass.title}</h1> :
+          <h2>{currentClass.title}</h2> :
           <p>Welcome, please add a class</p>}
       </span>
       {currentClass && <Toggle mode={currentMode} setModeFunc={setCurrentMode} />}
@@ -46,6 +46,9 @@ function App() {
         size="md">
         Add class
       </Button>
+      <div className='absolute right-4 bottom-4 text-xs text-tertiary'>
+        <p>Powered by backboard.io</p>
+      </div>
     </SidebarNavigationSimple>
   )
 
@@ -55,20 +58,20 @@ function App() {
         method: "GET",
         credentials: "include"
       });
-    
+
       const data = await res.json()
 
       if (data.status === "ok") {
         const courses = data.courses
-        
+
         setAllClasses(courses)
 
         if (courses.length > 0) {
           setCurrentClass(courses[0])
-        } 
+        }
       }
     }
-    
+
     fetchCourses()
   }, [])
 
