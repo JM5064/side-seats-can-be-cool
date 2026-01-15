@@ -3,7 +3,6 @@
 - low priority:
     - fix mobile menu problems
     - expandable/scrollable input field
-    - change title + logo of app
     - add readme
     - make pressing enter create the new course
 
@@ -13,4 +12,5 @@
     - make camera button do something
     - make pressing enter send message
     - loading animation for when chatbot is responding
+    - change title + logo of app
 
