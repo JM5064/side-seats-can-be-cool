@@ -9,6 +9,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  base: '/side-seats-can-be-cool/',
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),

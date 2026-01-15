@@ -16,7 +16,7 @@ const Chatbot = ({ currentClass }: ChatbotProps) => {
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const res = await fetch(`http://127.0.0.1:5000/getchat/${currentClass.id}`, {
+      const res = await fetch(`https://side-seats-can-be-cool.onrender.com/${currentClass.id}`, {
         method: "GET",
         credentials: "include"
       });

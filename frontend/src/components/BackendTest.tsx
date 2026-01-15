@@ -6,7 +6,7 @@ const BackendTest = () => {
     const formData = new FormData();
     formData.append("title", "COMP 554");
   
-    const res = await fetch("http://127.0.0.1:5000/getchat/1", {
+    const res = await fetch("https://side-seats-can-be-cool.onrender.com/getchat/1", {
       method: "GET",
       // body: formData,
       credentials: "include"
