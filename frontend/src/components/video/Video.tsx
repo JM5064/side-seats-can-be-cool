@@ -211,7 +211,7 @@ const Video = ({ currentClass }: VideoProps) => {
       const formData = new FormData()
       formData.append("photo", blob)
   
-      const res = await fetch(`https://side-seats-can-be-cool.onrender.com/${currentClass.id}`, {
+      const res = await fetch(`https://side-seats-can-be-cool.onrender.com/upload/${currentClass.id}`, {
         method: "POST",
         body: formData,
         credentials: "include",

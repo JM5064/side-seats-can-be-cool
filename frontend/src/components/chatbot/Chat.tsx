@@ -30,7 +30,7 @@ const Chat = ({ currentClass, messages, setMessages, setResponding }: ChatProps)
         // Send request to backend
         const formData = new FormData();
         formData.append("msg", input)
-        const res = await fetch(`https://side-seats-can-be-cool.onrender.com/${currentClass.id}`, {
+        const res = await fetch(`https://side-seats-can-be-cool.onrender.com/coursechat/${currentClass.id}`, {
             method: "POST",
             body: formData,
             credentials: "include"
@@ -60,7 +60,7 @@ const Chat = ({ currentClass, messages, setMessages, setResponding }: ChatProps)
                     className="w-full scroll-py-3 rounded-lg bg-primary px-3.5 py-3 text-md text-primary shadow-xs ring-1 ring-primary transition duration-100 ease-linear ring-inset placeholder:text-placeholder autofill:rounded-lg autofill:text-primary focus:outline-hidden"
                 />
 
-                <Button type='submit' color="primary" size="md" iconLeading={Send01} aria-label="Button CTA" />
+                <Button type='submit' color="secondary" size="md" iconLeading={Send01} aria-label="Button CTA" />
             </form>
 
         </footer>
