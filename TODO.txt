@@ -4,7 +4,6 @@
     - fix mobile menu problems
     - expandable/scrollable input field
     - add readme
-    - make pressing enter create the new course
 
 - done (yippee):
     - on reload + on switch classes, display messages from database
@@ -13,4 +12,5 @@
     - make pressing enter send message
     - loading animation for when chatbot is responding
     - change title + logo of app
+    - make pressing enter create the new course
 
