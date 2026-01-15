@@ -118,7 +118,7 @@ def upload(course_id):
     return {"status": "error", "errors": form.errors}, 400
 
 
-# initialize_database()
-if __name__ == "__main__":
-    initialize_database()
-    app.run(debug=True)
+initialize_database()
+# if __name__ == "__main__":
+    # initialize_database()
+    # app.run(debug=True)
