@@ -2,6 +2,9 @@ import { cx } from "@/utils/cx";
 import { type MessageType } from '@/types/MessageType'
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeKatex from 'rehype-katex'
+import remarkMath from 'remark-math'
+import 'katex/dist/katex.min.css'
 
 type MessageProps = {
   message: MessageType
@@ -18,7 +21,7 @@ const Message = ({ message }: MessageProps) => {
             "rounded-tl-none bg-secondary"
         )}
       >
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+        <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]}>
           {message.text}
         </ReactMarkdown>
 
